@@ -1,0 +1,36 @@
+{
+  "name": "nodehotkey",
+  "version": "1.0.6",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=prod nodemon -e js,ts -w ./src --exec \"npm run build && npm run start\"",
+    "start": "node ./build/index.js",
+    "build": "tsc",
+    "prepublish": "npm run build && npm run defs",
+    "defs": "tsc --declaration --outDir build --emitDeclarationOnly"
+  },
+  "author": "Rubinder Singh",
+  "license": "ISC",
+  "dependencies": {
+    "robot-js": "2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "10.12.21",
+    "cross-env": "5.2.0"
+  },
+  "keywords": [
+    "autohotkey",
+    "nodehotkey",
+    "automation",
+    "macro",
+    "macros",
+    "robot",
+    "robot-js",
+    "hotkeys",
+    "hotkey",
+    "hotstrings",
+    "hotstring"
+  ]
+}
