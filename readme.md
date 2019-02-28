@@ -15,24 +15,31 @@ Please refer the Macro section for this.
 ## Catch global Keyboard/Mouse events
 ```javascript
 nhk.startListening(); // start listening for keyboard and mouse events
+
 nhk.on(nhk.eventTypes.keyReleased, (eventData: any) => {
     console.log('KeyReleased ', eventData.keyCode);
 });
+
 nhk.on(nhk.eventTypes.keyPressed, (eventData: any) => {
     console.log('KeyPressed ', eventData.keyCode);
 });
+
 nhk.on(nhk.eventTypes.mouseKeyReleased, (eventData: any) => {
     console.log('mouseKeyReleased ', eventData.keyCode);
 });
+
 nhk.on(nhk.eventTypes.mouseKeyPressed, (eventData: any) => {
     console.log('mouseKeyPressed ', eventData.keyCode);
 });
+
 nhk.on(nhk.eventTypes.macroTriggered, (eventData: any) => {
     console.log('macroTriggered ', eventData.macroName);
 });
+
 nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
     console.log('hotstringTriggered ', eventData.macroName);
 });
+
 nhk.stopListening();
 ```
 ## Marco
