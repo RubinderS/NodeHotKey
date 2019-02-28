@@ -7,13 +7,13 @@ This is an autohotkey like library. It can be used for 3 purposes:-
 ## import
 import { NodeHotKey } from 'NodeHotKey';
 ## Initialize the object
-<code>
+```javascript
 let nhk = new NodeHotKey({});
-</code>
+```
 Currently we are passing an empty object. A Macro Config object can be passed to the constructor in order to create autohotkey like macros.
 Please refer the Macro section for this.
 ## Catch global Keyboard/Mouse events
-<code>
+```javascript
 nhk.startListening(); // start listening for keyboard and mouse events
 nhk.on(nhk.eventTypes.keyReleased, (eventData: any) => {
     console.log('KeyReleased ', eventData.keyCode);
@@ -34,11 +34,11 @@ nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
     console.log('hotstringTriggered ', eventData.macroName);
 });
 nhk.stopListening();
-</code>
+```
 ## Marco
 Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined in JSON format and can be triggered by hotkeys or hotstrings.
 ### A sample macro looks like this
-<code>
+```javascript
 let macroConfig = {
 'Name of the Macro': {
 		keys: [KC._CONTROL, KC._E],
@@ -50,17 +50,17 @@ let macroConfig = {
 			{ releaseKey: KC._COMMA }
 		]
 	},
-</code>
+```
 we can then pass this macroConfig to constructor of NodeHotKey like this:-
-<code>
+```javascript
 let nhk = new NodeHotKey(macroConfig);
 nhk.startListening();
-</code>
+```
 
 More sample Marco configs can be found [github link]
 ## Trigger keyboard/mouse events
 There are utility functions in the package which can be used to trigger keyboard/mouse events.
-<code>
+```javascript
 import { pressKey,releaseKey, KEYCODES as KC } from './NodeHotKey'; 
 
 pressKey(KC._A);
@@ -68,10 +68,10 @@ releaseKey(KC._A);
 
 pressKey(KC._MOUSE_RIGHT);
 releaseKey(KC._MOUSE_RIGHT);
-</code>
+```
 ## Putting it all togther
 
-<code>
+```javascript
 import { NodeHotKey, pressKey,releaseKey, KEYCODES as KC } from './NodeHotKey';
 
 // press some keys 
@@ -123,4 +123,4 @@ nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
 
 
 // nhk.stopListening();
-</code>
+```
