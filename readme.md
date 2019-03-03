@@ -1,9 +1,12 @@
 # NodeHotKey
+
 This is an autohotkey like library. It can be used for 3 purposes:-
 1. Make global Macros and assign hotkeys to trigger them.
 2. Catch global keyboard/mouse events in your code.
 3. Trigger keyboard/mouse events from your code.
 # Usage
+## Install
+npm install nodehotkey --save
 ## import
 import { NodeHotKey } from 'NodeHotKey';
 ## Initialize the object
