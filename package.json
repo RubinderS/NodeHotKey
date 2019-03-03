@@ -5,10 +5,8 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=prod nodemon -e js,ts -w ./src --exec \"npm run build && npm run start\"",
-    "start": "node ./build/index.js",
-    "build": "tsc",
     "prepublish": "npm run build && npm run defs",
+    "build": "tsc",
     "defs": "tsc --declaration --outDir build --emitDeclarationOnly"
   },
   "author": "Rubinder Singh",
