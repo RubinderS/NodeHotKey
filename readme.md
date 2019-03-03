@@ -1,5 +1,7 @@
+![GitHub](https://img.shields.io/github/license/Rubinder25/NodeHotKey.svg?style=flat-square)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/Rubinder25/NodeHotKey.svg?style=flat-square)
 # NodeHotKey
-
+https://github.com/Rubinder25/NodeHotKey
 This is an autohotkey like library. It can be used for 3 purposes:-
 1. Make global Macros and assign hotkeys to trigger them.
 2. Catch global keyboard/mouse events in your code.
