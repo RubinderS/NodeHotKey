@@ -9,9 +9,10 @@ This is an autohotkey like library. It can be used for 3 purposes:-
 3. Trigger keyboard/mouse events from your code.
 # Usage
 ## Install
-npm install nodehotkey --save
+`npm install nodehotkey --save`
+follow this page to install dependencies for robot-js on your platform: http://getrobot.net/docs/usage.html
 ## import
-import { NodeHotKey } from 'NodeHotKey';
+`import { NodeHotKey } from 'NodeHotKey';`
 ## Initialize the object
 ```javascript
 let nhk = new NodeHotKey({});
