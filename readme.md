@@ -19,6 +19,29 @@ let nhk = new NodeHotKey({});
 ```
 Currently we are passing an empty object. A Macro Config object can be passed to the constructor in order to create autohotkey like macros.
 Please refer the Macro section for this.
+## Marco
+Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined in JSON format and can be triggered by hotkeys or hotstrings.
+### A sample macro looks like this
+```javascript
+let macroConfig = {
+'Name of the Macro': {
+		keys: [KC._CONTROL, KC._E],
+		steps: [
+			{ type: 'This Macro can be triggered by pressing CTRL+E\n' },
+			{ type: "Wait for 3 secs then press ','  " },
+			{ wait: 2000 },
+			{ pressKey: KC._COMMA },
+			{ releaseKey: KC._COMMA }
+		]
+	},
+```
+we can then pass this macroConfig to constructor of NodeHotKey like this:-
+```javascript
+let nhk = new NodeHotKey(macroConfig);
+nhk.startListening();
+```
+
+For more sample Marco configs see the sample project at the bottom of this page.  
 ## Catch global Keyboard/Mouse events
 ```javascript
 nhk.startListening(); // start listening for keyboard and mouse events
@@ -47,31 +70,8 @@ nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
     console.log('hotstringTriggered ', eventData.macroName);
 });
 
-nhk.stopListening();
+// nhk.stopListening();
 ```
-## Marco
-Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined in JSON format and can be triggered by hotkeys or hotstrings.
-### A sample macro looks like this
-```javascript
-let macroConfig = {
-'Name of the Macro': {
-		keys: [KC._CONTROL, KC._E],
-		steps: [
-			{ type: 'This Macro can be triggered by pressing CTRL+E\n' },
-			{ type: "Wait for 3 secs then press ','  " },
-			{ wait: 2000 },
-			{ pressKey: KC._COMMA },
-			{ releaseKey: KC._COMMA }
-		]
-	},
-```
-we can then pass this macroConfig to constructor of NodeHotKey like this:-
-```javascript
-let nhk = new NodeHotKey(macroConfig);
-nhk.startListening();
-```
-
-More sample Marco configs can be found [github link]
 ## Trigger keyboard/mouse events
 There are utility functions in the package which can be used to trigger keyboard/mouse events.
 ```javascript
