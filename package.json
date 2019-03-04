@@ -1,6 +1,6 @@
 {
   "name": "nodehotkey",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Authotkey like macros for NodeJS",
   "main": "build/index.js",
   "types": "build/index.d.ts",
