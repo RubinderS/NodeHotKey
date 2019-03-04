@@ -18,7 +18,7 @@ follow this page to install dependencies for robot-js on your platform: http://g
 let nhk = new NodeHotKey({});
 ```
 Currently we are passing an empty object. A Macro Config object can be passed to the constructor in order to create autohotkey like macros.
-Please refer the Macro section for this.
+Please refer the next section for this.
 ## Marco
 Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined in JSON format and can be triggered by hotkeys or hotstrings.
 ### A sample macro looks like this
