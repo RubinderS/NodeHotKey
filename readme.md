@@ -141,3 +141,8 @@ nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
 ## Sample Project
 This is a sample project built using NodeHotKey package:-
 https://github.com/Rubinder25/SampleProject_using_NodeHotKey
+
+
+## License
+ISC  
+> email: mail2rubinder@gmail.com
