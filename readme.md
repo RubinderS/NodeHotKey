@@ -142,7 +142,7 @@ nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
 This is a sample project built using NodeHotKey package:-
 https://github.com/Rubinder25/SampleProject_using_NodeHotKey
 
+> email: mail2rubinder@gmail.com
 
 ## License
-ISC  
-> email: mail2rubinder@gmail.com
+ISC
