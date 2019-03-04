@@ -46,27 +46,27 @@ For more sample Marco configs see the sample project at the bottom of this page.
 ```javascript
 nhk.startListening(); // start listening for keyboard and mouse events
 
-nhk.on(nhk.eventTypes.keyReleased, (eventData: any) => {
+nhk.on(nhk.eventTypes.keyReleased, (eventData) => {
     console.log('KeyReleased ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.keyPressed, (eventData: any) => {
+nhk.on(nhk.eventTypes.keyPressed, (eventData) => {
     console.log('KeyPressed ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.mouseKeyReleased, (eventData: any) => {
+nhk.on(nhk.eventTypes.mouseKeyReleased, (eventData) => {
     console.log('mouseKeyReleased ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.mouseKeyPressed, (eventData: any) => {
+nhk.on(nhk.eventTypes.mouseKeyPressed, (eventData) => {
     console.log('mouseKeyPressed ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.macroTriggered, (eventData: any) => {
+nhk.on(nhk.eventTypes.macroTriggered, (eventData) => {
     console.log('macroTriggered ', eventData.macroName);
 });
 
-nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
+nhk.on(nhk.eventTypes.hotstringTriggered, (eventData) => {
     console.log('hotstringTriggered ', eventData.macroName);
 });
 
@@ -111,27 +111,27 @@ let nhk = new NodeHotKey(macroConfig);
 
 nhk.startListening();
 
-nhk.on(nhk.eventTypes.keyReleased, (eventData: any) => {
+nhk.on(nhk.eventTypes.keyReleased, (eventData) => {
     console.log('KeyReleased ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.keyPressed, (eventData: any) => {
+nhk.on(nhk.eventTypes.keyPressed, (eventData) => {
     console.log('KeyPressed ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.mouseKeyReleased, (eventData: any) => {
+nhk.on(nhk.eventTypes.mouseKeyReleased, (eventData) => {
     console.log('mouseKeyReleased ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.mouseKeyPressed, (eventData: any) => {
+nhk.on(nhk.eventTypes.mouseKeyPressed, (eventData) => {
     console.log('mouseKeyPressed ', eventData.keyCode);
 });
 
-nhk.on(nhk.eventTypes.macroTriggered, (eventData: any) => {
+nhk.on(nhk.eventTypes.macroTriggered, (eventData) => {
     console.log('macroTriggered ', eventData.macroName);
 });
 
-nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
+nhk.on(nhk.eventTypes.hotstringTriggered, (eventData) => {
     console.log('hotstringTriggered ', eventData.macroName);
 });
 
