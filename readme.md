@@ -20,7 +20,7 @@ let nhk = new NodeHotKey({});
 Currently we are passing an empty object. A Macro Config object can be passed to the constructor in order to create autohotkey like macros.
 Please refer the next section for this.
 ## Marco
-Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined in JSON format and can be triggered by hotkeys or hotstrings.
+Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined as JavaScript objects.
 ### A sample macro looks like this
 ```javascript
 let macroConfig = {
@@ -70,7 +70,7 @@ nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
     console.log('hotstringTriggered ', eventData.macroName);
 });
 
-// nhk.stopListening();
+// nhk.stopListening(); // terminates the program
 ```
 ## Trigger keyboard/mouse events
 There are utility functions in the package which can be used to trigger keyboard/mouse events.
@@ -136,7 +136,7 @@ nhk.on(nhk.eventTypes.hotstringTriggered, (eventData: any) => {
 });
 
 
-// nhk.stopListening();
+// nhk.stopListening(); // terminates the program
 ```
 ## Sample Project
 This is a sample project built using NodeHotKey package:-
