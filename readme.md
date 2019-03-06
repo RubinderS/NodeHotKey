@@ -44,33 +44,9 @@ nhk.startListening();
 For more sample Marco configs see the sample project at the bottom of this page.  
 ## Catch global Keyboard/Mouse events
 ```javascript
-nhk.startListening(); // start listening for keyboard and mouse events
-
-nhk.on(nhk.eventTypes.keyReleased, (eventData) => {
-    console.log('KeyReleased ', eventData.keyCode);
-});
-
 nhk.on(nhk.eventTypes.keyPressed, (eventData) => {
     console.log('KeyPressed ', eventData.keyCode);
 });
-
-nhk.on(nhk.eventTypes.mouseKeyReleased, (eventData) => {
-    console.log('mouseKeyReleased ', eventData.keyCode);
-});
-
-nhk.on(nhk.eventTypes.mouseKeyPressed, (eventData) => {
-    console.log('mouseKeyPressed ', eventData.keyCode);
-});
-
-nhk.on(nhk.eventTypes.macroTriggered, (eventData) => {
-    console.log('macroTriggered ', eventData.macroName);
-});
-
-nhk.on(nhk.eventTypes.hotstringTriggered, (eventData) => {
-    console.log('hotstringTriggered ', eventData.macroName);
-});
-
-// nhk.stopListening(); // terminates the program
 ```
 ## Trigger keyboard/mouse events
 There are utility functions in the package which can be used to trigger keyboard/mouse events.
@@ -111,30 +87,9 @@ let nhk = new NodeHotKey(macroConfig);
 
 nhk.startListening();
 
-nhk.on(nhk.eventTypes.keyReleased, (eventData) => {
-    console.log('KeyReleased ', eventData.keyCode);
-});
-
 nhk.on(nhk.eventTypes.keyPressed, (eventData) => {
     console.log('KeyPressed ', eventData.keyCode);
 });
-
-nhk.on(nhk.eventTypes.mouseKeyReleased, (eventData) => {
-    console.log('mouseKeyReleased ', eventData.keyCode);
-});
-
-nhk.on(nhk.eventTypes.mouseKeyPressed, (eventData) => {
-    console.log('mouseKeyPressed ', eventData.keyCode);
-});
-
-nhk.on(nhk.eventTypes.macroTriggered, (eventData) => {
-    console.log('macroTriggered ', eventData.macroName);
-});
-
-nhk.on(nhk.eventTypes.hotstringTriggered, (eventData) => {
-    console.log('hotstringTriggered ', eventData.macroName);
-});
-
 
 // nhk.stopListening(); // terminates the program
 ```
