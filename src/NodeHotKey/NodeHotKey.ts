@@ -1,7 +1,8 @@
 import { getUpdatedHotstring, fireHotstring } from './utils/FireHotstring';
 import { KEYCODES } from './utils/Keycodes';
-import { areKeysPressed, releaseKey } from './utils/KeyboardMouse';
+import { releaseKey } from './utils/KeyboardMouse';
 import { runMacro } from './utils/RunMacro';
+import { areKeysPressed } from './utils/AreKeysPressed';
 const EventEmitter = require('events');
 
 export type Macro = {
@@ -41,7 +42,7 @@ export class NodeHotKey extends EventEmitter {
 		keyPressed: 'keyPressed',
 		mouseKeyPressed: 'mouseKeyPressed',
 		mouseKeyReleased: 'mouseKeyReleased',
-		macroTriggered: 'macroTriggered',
+		hotKeyTriggered: 'hotKeyTriggered',
 		hotstringTriggered: 'hotstringTriggered'
 	};
 
@@ -75,7 +76,7 @@ export class NodeHotKey extends EventEmitter {
 		if (process.env.NODE_ENV === 'dev') console.log(eventType, '- triggered:', outConsole);
 	}
 
-	private detectMacroEvents() {
+	private detectHotKeyEvents() {
 		if (this.isRobotOn === false && this.justRanMacro === false) {
 			Object.keys(this.macros).forEach(key => {
 				let macro = this.macros[key];
@@ -83,7 +84,7 @@ export class NodeHotKey extends EventEmitter {
 					let eventData = {
 						macroName: key
 					};
-					this.emitEvent(this.eventTypes.macroTriggered, eventData, eventData.macroName);
+					this.emitEvent(this.eventTypes.hotKeyTriggered, eventData, eventData.macroName);
 					this.justRanMacro = true;
 					setTimeout(() => {
 						this.justRanMacro = false;
@@ -201,7 +202,7 @@ export class NodeHotKey extends EventEmitter {
 			this.mouseStatePrev = this.mouseStateCurr;
 
 			// Macros
-			this.detectMacroEvents();
+			this.detectHotKeyEvents();
 		}, 0);
 	}
 	/**

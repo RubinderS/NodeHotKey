@@ -9,13 +9,6 @@ let mouse = robot.Mouse();
 mouse.autoDelay.min = 0;
 mouse.autoDelay.max = 0;
 
-export function areKeysPressed(keyCodeArr: number[], keyboardState: any, mouseState: any): boolean {
-	let keysArePressed = true;
-	keyCodeArr.forEach(keyCode => {
-		if (!keyboardState[keyCode] && !mouseState[keyCode]) keysArePressed = false;
-	});
-	return keysArePressed;
-}
 /**
  * press a keyboard/mouse key
  * @param keyCode {number} code of the key to press
