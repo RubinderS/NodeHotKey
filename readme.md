@@ -19,7 +19,7 @@ let nhk = new NodeHotKey({});
 ```
 Currently we are passing an empty object. A Macro Config object can be passed to the constructor in order to create autohotkey like macros.
 Please refer the next section for this.
-## Marco
+## Macro
 Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined as JavaScript objects.
 ### A sample macro looks like this
 ```javascript
