@@ -11,30 +11,39 @@ export function runMacro(steps: MacroStep[]) {
 			let keyCode = step.pressKey;
 			pressKey(keyCode);
 		}
+		
 		if (step.releaseKey) {
 			let keyCode = step.releaseKey;
 			releaseKey(keyCode);
 		}
+
 		if (step.type) {
 			let s = step.type;
 			type(s);
 		}
+
 		if (step.click) {
 			let click = step.click;
-			for (let i = 0; i < (step.click.times || 1); i++) {
-				if (click.modifier) {
-					pressKey(click.modifier);
-					clickKey(click.key);
-					releaseKey(click.modifier);
-				} else {
-					clickKey(click.key);
+			if(typeof click === 'number') {
+				clickKey(click);
+			} else if( typeof click === 'object') {
+				for (let i = 0; i < (click.times || 1); i++) {
+					if (click.modifiers) {
+						click.modifiers.forEach(modifier => pressKey(modifier));
+						clickKey(click.key);
+						click.modifiers.forEach(modifier => releaseKey(modifier));
+					} else {
+						clickKey(click.key);
+					}
 				}
 			}
 		}
+
 		if (step.wait) {
 			let delay = step.wait;
 			wait(delay);
 		}
+
 		if (step.paste) {
 			let s = step.paste;
 			let tempClipText = getClipboardText();

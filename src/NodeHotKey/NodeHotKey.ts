@@ -14,7 +14,7 @@ export type Macro = {
 };
 
 export type MacroStep = {
-	click?: { key: number; modifier?: number; times?: number };
+	click?: { key: number; modifiers?: number[]; times?: number } | number;
 	pressKey?: number;
 	paste?: string;
 	releaseKey?: number;
