@@ -5,15 +5,15 @@ import { runMacro } from './utils/RunMacro';
 import { areKeysPressed } from './utils/AreKeysPressed';
 const EventEmitter = require('events');
 
-export type Macro = {
+export type MacroType = {
 	[key: string]: {
 		keys?: number[];
 		hotstring?: string;
-		steps: MacroStep[];
+		steps: MacroStepType[];
 	};
 };
 
-export type MacroStep = {
+export type MacroStepType = {
 	click?: { key: number; modifiers?: number[]; times?: number } | number;
 	pressKey?: number;
 	paste?: string;
@@ -28,7 +28,7 @@ export class NodeHotKey extends EventEmitter {
 	private readonly doubleKeyCodes = [160, 161, 162, 163, 164, 165];
 
 	private listeningInterval: NodeJS.Timeout | null;
-	private macros: Macro;
+	private macros: MacroType;
 	private currHotstring: string;
 	private justRanMacro: boolean;
 	private isRobotOn: boolean;
@@ -164,7 +164,7 @@ export class NodeHotKey extends EventEmitter {
 		}
 	}
 
-	public constructor(macros?: Macro) {
+	public constructor(macros?: MacroType) {
 		super();
 		let emptyMacrosObject = {
 			'EmptyMacro': { steps: [] }

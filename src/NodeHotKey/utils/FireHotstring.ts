@@ -1,7 +1,7 @@
 import { keyCodeToPrintableChar } from './KeyCodeToPrintableChar';
 import { clickKey } from './KeyboardMouse';
 import { KEYCODES } from './Keycodes';
-import { MacroStep } from '../NodeHotKey';
+import { MacroStepType } from '../NodeHotKey';
 import { runMacro } from './RunMacro';
 
 export function getUpdatedHotstring(keyPressedCode: string, isShiftOn: boolean, currHotString: string): string {
@@ -16,7 +16,7 @@ export function getUpdatedHotstring(keyPressedCode: string, isShiftOn: boolean, 
 	return currHotString;
 }
 
-export function fireHotstring(hot: string, steps: MacroStep[]): void {
+export function fireHotstring(hot: string, steps: MacroStepType[]): void {
 	if (steps[0].type || steps[0].paste)
 		for (let i = 0; i < hot.length; i++) {
 			clickKey(KEYCODES._BACKSPACE);

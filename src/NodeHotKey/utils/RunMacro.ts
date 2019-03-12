@@ -1,10 +1,10 @@
-import { MacroStep } from '../NodeHotKey';
+import { MacroStepType } from '../NodeHotKey';
 import { pressKey, releaseKey, clickKey, type } from './KeyboardMouse';
 import { setClipboardText, getClipboardText } from './Clipboard';
 import { KEYCODES } from './Keycodes';
 import { wait } from './Wait';
 
-export function runMacro(steps: MacroStep[]) {
+export function runMacro(steps: MacroStepType[]) {
 
 	steps.forEach((step) => {
 		if (step.pressKey) {
