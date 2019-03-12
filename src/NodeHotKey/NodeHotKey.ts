@@ -8,7 +8,7 @@ const EventEmitter = require('events');
 export type Macro = {
 	[key: string]: {
 		keys?: number[];
-		Hotstring?: string;
+		hotstring?: string;
 		steps: MacroStep[];
 	};
 };
@@ -150,14 +150,14 @@ export class NodeHotKey extends EventEmitter {
 			if (process.env.NODE_ENV === 'dev') console.log('Hostring recorded:', this.currHotstring);
 			Object.keys(this.macros).forEach(key => {
 				let macro = this.macros[key];
-				if (macro.Hotstring && macro.Hotstring === this.currHotstring) {
+				if (macro.hotstring && macro.hotstring === this.currHotstring) {
 					let eventData = {
 						macroName: key,
-						hotString: macro.Hotstring,
+						hotString: macro.hotstring,
 					};
 					this.doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
 					this.currHotstring = '';
-					fireHotstring(macro.Hotstring, macro.steps);
+					fireHotstring(macro.hotstring, macro.steps);
 					this.emitEvent(this.eventTypes.hotstringTriggered, eventData, eventData.hotString);
 				}
 			});
