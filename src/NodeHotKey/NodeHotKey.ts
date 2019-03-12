@@ -1,6 +1,6 @@
 import { getUpdatedHotstring, fireHotstring } from './utils/FireHotstring';
 import { KEYCODES } from './utils/Keycodes';
-import { releaseKey } from './utils/KeyboardMouse';
+import { releaseKey, pressKey } from './utils/KeyboardMouse';
 import { runMacro } from './utils/RunMacro';
 import { areKeysPressed } from './utils/AreKeysPressed';
 const EventEmitter = require('events');
@@ -21,7 +21,19 @@ export type MacroStepType = {
 	releaseKey?: number;
 	type?: string;
 	wait?: number;
+	func?:FuncType;
 }
+
+export type FuncType = (
+					pressKey:(keyCode: number) => void,
+					releaseKey:(keyCode: number) => void,
+					clickKey: (keyCode: number) => void,
+					type: (string: string) => void,
+					wait: (milliseconds: number) => void,
+					setClipboardText: (text: string) => void,
+					getClipboardText: () => string
+				) 
+				=> void;
 
 export class NodeHotKey extends EventEmitter {
 	private readonly robot = require('robot-js');

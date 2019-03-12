@@ -59,5 +59,10 @@ export function runMacro(steps: MacroStepType[]) {
 			setClipboardText(tempClipText);
 			wait(delay);
 		}
+
+		if(step.func) {
+			step.func(pressKey, releaseKey, clickKey, type, wait, setClipboardText, getClipboardText);
+		}
+
 	});
 }
