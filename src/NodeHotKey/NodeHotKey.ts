@@ -9,6 +9,7 @@ export type MacroType = {
 	[key: string]: {
 		keys?: number[];
 		hotstring?: string;
+		loop?: number;
 		steps: MacroStepType[];
 	};
 };
@@ -164,6 +165,17 @@ export class NodeHotKey extends EventEmitter {
 		}
 	}
 
+	private startLoops() {
+		Object.keys(this.macros).forEach(key => {
+			let macro = this.macros[key];
+			if (macro.loop) {
+				setInterval(() => {
+					runMacro(macro.steps)
+				}, macro.loop);
+			}
+		});
+	}
+
 	public constructor(macros?: MacroType) {
 		super();
 		let emptyMacrosObject = {
@@ -176,7 +188,7 @@ export class NodeHotKey extends EventEmitter {
 		this.isRobotOn = false;
 	}
 	/**
-	 * start listening for keyboard and mouse events
+	 * start listening for keyboard, mouse and Macro events
 	 * @returns {void}
 	 */
 	public startListening() {
@@ -187,6 +199,8 @@ export class NodeHotKey extends EventEmitter {
 		this.on(this.eventTypes.keyPressed, (eventData: any) => {
 			this.detectHotstringEvents(eventData.keyCode, eventData.keyboardState[KEYCODES._SHIFT]);
 		});
+
+		this.startLoops();
 
 		this.listeningInterval = setInterval(() => {
 			this.isRobotOn = false;
