@@ -183,7 +183,7 @@ export class NodeHotKey extends EventEmitter {
 			if (macro.loop) {
 				setInterval(() => {
 					runMacro(macro.steps)
-				}, macro.loop);
+				}, macro.loop*1000);
 			}
 		});
 	}
