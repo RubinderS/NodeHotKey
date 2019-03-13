@@ -17,7 +17,7 @@ export function getUpdatedHotstring(keyPressedCode: string, isShiftOn: boolean, 
 }
 
 export function fireHotstring(hot: string, steps: MacroStepType[]): void {
-	if (steps[0].hasOwnProperty('type') || steps[0].hasOwnProperty('paste'))
+	if ((steps[0].hasOwnProperty('type') && steps[0].type !== undefined) || (steps[0].hasOwnProperty('paste') && steps[0].paste !== undefined))
 		for (let i = 0; i < hot.length; i++) {
 			clickKey(KEYCODES._BACKSPACE);
 		}
