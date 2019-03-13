@@ -21,19 +21,19 @@ export type MacroStepType = {
 	releaseKey?: number;
 	type?: string;
 	wait?: number;
-	func?:FuncType;
+	func?: FuncType;
 }
 
 export type FuncType = (
-					pressKey:(keyCode: number) => void,
-					releaseKey:(keyCode: number) => void,
-					clickKey: (keyCode: number) => void,
-					type: (string: string) => void,
-					wait: (milliseconds: number) => void,
-					setClipboardText: (text: string) => void,
-					getClipboardText: () => string
-				) 
-				=> void;
+	pressKey: (keyCode: number) => void,
+	releaseKey: (keyCode: number) => void,
+	clickKey: (keyCode: number) => void,
+	type: (string: string) => void,
+	wait: (milliseconds: number) => void,
+	setClipboardText: (text: string) => void,
+	getClipboardText: () => string
+)
+	=> void;
 
 export class NodeHotKey extends EventEmitter {
 	private readonly robot = require('robot-js');
@@ -56,7 +56,8 @@ export class NodeHotKey extends EventEmitter {
 		mouseKeyPressed: 'mouseKeyPressed',
 		mouseKeyReleased: 'mouseKeyReleased',
 		hotKeyTriggered: 'hotKeyTriggered',
-		hotstringTriggered: 'hotstringTriggered'
+		hotstringTriggered: 'hotstringTriggered',
+		loopTriggered: 'loopTriggered'
 	};
 
 	private checkRobotOn(keyCode: string) {
@@ -86,7 +87,7 @@ export class NodeHotKey extends EventEmitter {
 
 	private emitEvent(eventType: string, eventData: any, outConsole: string) {
 		this.emit(eventType, eventData);
-		if (process.env.NODE_ENV === 'dev') console.log(eventType, '- triggered:', outConsole);
+		if (process.env.NODE_ENV === 'dev') console.log(eventType + ':', outConsole);
 	}
 
 	private detectHotKeyEvents() {
@@ -182,8 +183,13 @@ export class NodeHotKey extends EventEmitter {
 			let macro = this.macros[key];
 			if (macro.loop) {
 				setInterval(() => {
-					runMacro(macro.steps)
-				}, macro.loop*1000);
+					runMacro(macro.steps);
+					let eventData = {
+						macroName: key,
+						loopInterval: macro.loop,
+					};
+					this.emitEvent(this.eventTypes.loopTriggered, eventData, key);
+				}, macro.loop * 1000);
 			}
 		});
 	}
