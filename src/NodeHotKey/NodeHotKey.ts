@@ -121,8 +121,7 @@ export class NodeHotKey extends EventEmitter {
 
 	private detectMouseEvents() {
 		Object.keys(this.mouseStateCurr).forEach((keyCode: string) => {
-			if (!this.isRobotOn)
-				this.isRobotOn = this.checkRobotOn(keyCode);
+
 			let eventData = {
 				keyCode: keyCode,
 				mouseState: this.mouseStateCurr,
@@ -130,6 +129,10 @@ export class NodeHotKey extends EventEmitter {
 			};
 			// Mouse key pressed
 			if (this.mouseStatePrev[keyCode] === false && this.mouseStateCurr[keyCode] === true) {
+				if (!this.isRobotOn) {
+					this.isRobotOn = this.checkRobotOn(keyCode);
+				}
+
 				this.emitEvent(this.eventTypes.mouseKeyPressed, eventData, eventData.keyCode);
 				this.currHotstring = '';
 			}
@@ -142,9 +145,6 @@ export class NodeHotKey extends EventEmitter {
 
 	private detectKeyboardEvents() {
 		Object.keys(this.keyboardStateCurr).forEach((keyCode: string) => {
-			if (!this.isRobotOn) {
-				this.isRobotOn = this.checkRobotOn(keyCode);
-			}
 			let eventData = {
 				keyCode: keyCode,
 				keyboardState: this.keyboardStateCurr,
@@ -152,6 +152,10 @@ export class NodeHotKey extends EventEmitter {
 			};
 			// Keyboard key pressed
 			if (this.keyboardStatePrev[keyCode] === false && this.keyboardStateCurr[keyCode] === true) {
+				if (!this.isRobotOn) {
+					this.isRobotOn = this.checkRobotOn(keyCode);
+				}
+				
 				this.emitEvent(this.eventTypes.keyPressed, eventData, eventData.keyCode);
 			}
 			// Keyboard key released
