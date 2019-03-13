@@ -15,7 +15,7 @@ export type MacroType = {
 };
 
 export type MacroStepType = {
-	click?: { key: number; modifiers?: number[]; times?: number } | number;
+	click?: ClickType | number;
 	pressKey?: number;
 	paste?: string;
 	releaseKey?: number;
@@ -23,6 +23,12 @@ export type MacroStepType = {
 	wait?: number;
 	func?: FuncType;
 }
+
+export type ClickType = {
+	key: number;
+	modifiers?: number[];
+	times?: number
+};
 
 export type FuncType = (
 	pressKey: (keyCode: number) => void,
