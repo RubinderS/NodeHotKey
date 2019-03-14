@@ -1,5 +1,6 @@
 // @ts-ignore
 import robot from 'robot-js';
+import { ClickType } from '../NodeHotKey';
 
 let keyboard = robot.Keyboard();
 keyboard.autoDelay.min = 0;
@@ -30,13 +31,24 @@ export function releaseKey(keyCode: number): void {
  * @param keyCode {number} code of the key to click
  * @returns {void} 
  */
-export function clickKey(keyCode: number): void {
-	if (keyCode < 8) {
-		mouse.press(keyCode);
-		mouse.release(keyCode);
-	} else {
-		keyboard.press(keyCode);
-		keyboard.release(keyCode);
+export function clickKey(clickKey: ClickType | number): void {
+	let pressReleaseKey = (keyCode: number): void => {
+		pressKey(keyCode);
+		releaseKey(keyCode);
+	};
+
+	if (typeof clickKey === 'number') {
+		pressReleaseKey(clickKey);
+	} else if (typeof clickKey === 'object') {
+		for (let i = 0; i < (clickKey.times || 1); i++) {
+			if (clickKey.modifiers) {
+				clickKey.modifiers.forEach(modifier => pressKey(modifier));
+				pressReleaseKey(clickKey.key);
+				clickKey.modifiers.forEach(modifier => releaseKey(modifier));
+			} else {
+				pressReleaseKey(clickKey.key);
+			}
+		}
 	}
 }
 /**
