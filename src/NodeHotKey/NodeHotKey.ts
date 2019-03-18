@@ -7,7 +7,7 @@ const EventEmitter = require('events');
 
 export type MacroType = {
 	[key: string]: {
-		keys?: number[];
+		hotkeys?: number[];
 		hotstring?: string;
 		loop?: number;
 		steps: MacroStepType[];
@@ -101,7 +101,7 @@ export class NodeHotKey extends EventEmitter {
 		if (this.isRobotOn === false && this.justRanMacro === false) {
 			Object.keys(this.macros).forEach(key => {
 				let macro = this.macros[key];
-				if (macro.keys && areKeysPressed(macro.keys, this.keyboardStateCurr, this.mouseStateCurr)) {
+				if (macro.hotkeys && areKeysPressed(macro.hotkeys, this.keyboardStateCurr, this.mouseStateCurr)) {
 					let eventData = {
 						macroName: key
 					};
@@ -111,7 +111,7 @@ export class NodeHotKey extends EventEmitter {
 						this.justRanMacro = false;
 					}, 500);
 					this.doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
-					macro.keys.forEach(keyCode => {
+					macro.hotkeys.forEach(keyCode => {
 						releaseKey(keyCode);
 					});
 					runMacro(macro.steps);
