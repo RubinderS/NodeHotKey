@@ -1,5 +1,5 @@
 import { MacroStepType } from '../NodeHotKey';
-import { pressKey, releaseKey, clickKey, type, paste } from './KeyboardMouse';
+import { pressKey, releaseKey, click, type, paste } from './KeyboardMouse';
 import { setClipboardText, getClipboardText } from './Clipboard';
 import { KEYCODES } from './Keycodes';
 import { wait } from './Wait';
@@ -23,8 +23,7 @@ export function runMacro(steps: MacroStepType[]) {
 		}
 
 		if (step.hasOwnProperty('click') && step.click !== undefined) {
-			let click = step.click;
-			clickKey(click);
+			click(step.click);
 		}
 
 		if (step.hasOwnProperty('wait') && step.wait !== undefined) {
@@ -38,7 +37,7 @@ export function runMacro(steps: MacroStepType[]) {
 		}
 
 		if (step.hasOwnProperty('func') && step.func !== undefined) {
-			step.func(pressKey, releaseKey, clickKey, type, paste, wait, setClipboardText, getClipboardText);
+			step.func(pressKey, releaseKey, click, type, paste, wait, setClipboardText, getClipboardText);
 		}
 
 	});

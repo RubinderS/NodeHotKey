@@ -34,7 +34,7 @@ export function releaseKey(keyCode: number): void {
  * @param keyCode {number} code of the key to click
  * @returns {void} 
  */
-export function clickKey(click: ClickObject | number | number[]): void {
+export function click(click: ClickObject | number | number[]): void {
 	let pressReleaseKeys = (keyCodes: number | number[]): void => {
 		// convert keyCodes into an array if its a number
 		keyCodes = typeof keyCodes === 'number' ? [keyCodes] : keyCodes;
@@ -72,7 +72,7 @@ export function paste(text: string): void {
 
 	setClipboardText(text);
 	wait(delay);
-	clickKey({ key: KC._V, modifiers: [KC._CONTROL] });
+	click({ key: KC._V, modifiers: [KC._CONTROL] });
 	wait(delay);
 	setClipboardText(tempClipText);
 }
