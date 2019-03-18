@@ -15,7 +15,7 @@ export type MacroType = {
 };
 
 export type MacroStepType = {
-	click?: ClickType | number;
+	click?: ClickObject | number | number[];
 	pressKey?: number;
 	paste?: string;
 	releaseKey?: number;
@@ -24,9 +24,9 @@ export type MacroStepType = {
 	func?: FuncType;
 }
 
-export type ClickType = {
+export type ClickObject = {
 	key: number;
-	modifiers?: number[];
+	modifiers?: number | number[];
 	times?: number
 };
 
@@ -34,7 +34,8 @@ export type FuncType = (
 	pressKey: (keyCode: number) => void,
 	releaseKey: (keyCode: number) => void,
 	clickKey: (keyCode: number) => void,
-	type: (string: string) => void,
+	type: (text: string) => void,
+	paste: (text: string) => void,
 	wait: (milliseconds: number) => void,
 	setClipboardText: (text: string) => void,
 	getClipboardText: () => string
@@ -155,7 +156,7 @@ export class NodeHotKey extends EventEmitter {
 				if (!this.isRobotOn) {
 					this.isRobotOn = this.checkRobotOn(keyCode);
 				}
-				
+
 				this.emitEvent(this.eventTypes.keyPressed, eventData, eventData.keyCode);
 			}
 			// Keyboard key released

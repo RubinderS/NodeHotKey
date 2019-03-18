@@ -1,6 +1,9 @@
 // @ts-ignore
 import robot from 'robot-js';
-import { ClickType } from '../NodeHotKey';
+import { ClickObject, MacroStepType } from '../NodeHotKey';
+import { setClipboardText, getClipboardText } from './Clipboard';
+import { wait } from './Wait';
+import { KEYCODES as KC } from './Keycodes';
 
 let keyboard = robot.Keyboard();
 keyboard.autoDelay.min = 0;
@@ -31,32 +34,54 @@ export function releaseKey(keyCode: number): void {
  * @param keyCode {number} code of the key to click
  * @returns {void} 
  */
-export function clickKey(clickKey: ClickType | number): void {
-	let pressReleaseKey = (keyCode: number): void => {
-		pressKey(keyCode);
-		releaseKey(keyCode);
+export function clickKey(click: ClickObject | number | number[]): void {
+	let pressReleaseKeys = (keyCodes: number | number[]): void => {
+		// convert keyCodes into an array if its a number
+		keyCodes = typeof keyCodes === 'number' ? [keyCodes] : keyCodes;
+
+		keyCodes.forEach(modifier => pressKey(modifier));
+		keyCodes.forEach(modifier => releaseKey(modifier));
 	};
 
-	if (typeof clickKey === 'number') {
-		pressReleaseKey(clickKey);
-	} else if (typeof clickKey === 'object') {
-		for (let i = 0; i < (clickKey.times || 1); i++) {
-			if (clickKey.modifiers) {
-				clickKey.modifiers.forEach(modifier => pressKey(modifier));
-				pressReleaseKey(clickKey.key);
-				clickKey.modifiers.forEach(modifier => releaseKey(modifier));
+	if (typeof click === 'number' || Array.isArray(click)) {
+		pressReleaseKeys(click);
+	} else if (typeof click === 'object') {
+		for (let i = 0; i < (click.times || 1); i++) {
+			if (click.modifiers) {
+				// convert modifiers into an array if its a number
+				let modifiers = typeof click.modifiers === 'number' ? [click.modifiers] : click.modifiers;
+
+				modifiers.forEach(modifier => pressKey(modifier));
+				pressReleaseKeys(click.key);
+				modifiers.forEach(modifier => releaseKey(modifier));
 			} else {
-				pressReleaseKey(clickKey.key);
+				pressReleaseKeys(click.key);
 			}
 		}
 	}
 }
+
+/**
+ * pastes given text
+ * @param string {text} text to be pasted
+ * @returns {void}
+ */
+export function paste(text: string): void {
+	let tempClipText = getClipboardText();
+	let delay = 100;
+
+	setClipboardText(text);
+	wait(delay);
+	clickKey({ key: KC._V, modifiers: [KC._CONTROL] });
+	wait(delay);
+	setClipboardText(tempClipText);
+}
 /**
  * type string using keystrokes
- * @param rawString {string} string to be typed
+ * @param text {string} string to be typed
  * @returns {void} 
  */
-export function type(rawString: string): void {
+export function type(text: string): void {
 	let getMapping = (c: string): string => {
 		switch (c) {
 			case ' ':
@@ -259,7 +284,7 @@ export function type(rawString: string): void {
 		}
 	};
 	keyboard.click(
-		rawString
+		text
 			.split('')
 			.map(c => getMapping(c))
 			.join('')
