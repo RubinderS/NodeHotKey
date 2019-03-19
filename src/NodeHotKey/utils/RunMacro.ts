@@ -7,36 +7,36 @@ import { wait } from './Wait';
 export function runMacro(steps: MacroStepType[]) {
 
 	steps.forEach((step) => {
-		if (step.hasOwnProperty('pressKey') && step.pressKey !== undefined) {
+		if (step.pressKey !== undefined) {
 			let keyCode = step.pressKey;
 			pressKey(keyCode);
 		}
 
-		if (step.hasOwnProperty('releaseKey') && step.releaseKey !== undefined) {
+		if (step.releaseKey !== undefined) {
 			let keyCode = step.releaseKey;
 			releaseKey(keyCode);
 		}
 
-		if (step.hasOwnProperty('type') && step.type !== undefined) {
+		if (step.type !== undefined) {
 			let s = step.type;
 			type(s);
 		}
 
-		if (step.hasOwnProperty('click') && step.click !== undefined) {
+		if (step.click !== undefined) {
 			click(step.click);
 		}
 
-		if (step.hasOwnProperty('wait') && step.wait !== undefined) {
+		if (step.wait !== undefined) {
 			let delay = step.wait;
 			wait(delay);
 		}
 
-		if (step.hasOwnProperty('paste') && step.paste !== undefined) {
+		if (step.paste !== undefined) {
 			let text = step.paste;
 			paste(text);
 		}
 
-		if (step.hasOwnProperty('func') && step.func !== undefined) {
+		if (step.func !== undefined) {
 			step.func(pressKey, releaseKey, click, type, paste, wait, setClipboardText, getClipboardText);
 		}
 
