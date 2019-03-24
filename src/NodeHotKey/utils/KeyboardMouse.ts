@@ -1,6 +1,6 @@
 // @ts-ignore
 import robot from 'robot-js';
-import { ClickObject, MacroStepType } from '../NodeHotKey';
+import { ClickType, MacroStepType } from '../NodeHotKey';
 import { setClipboardText, getClipboardText } from './Clipboard';
 import { wait } from './Wait';
 import { KEYCODES as KC } from './Keycodes';
@@ -34,7 +34,7 @@ export function releaseKey(keyCode: number): void {
  * @param keyCode {number} code of the key to click
  * @returns {void} 
  */
-export function click(click: ClickObject | number | number[]): void {
+export function click(click: ClickType | number | number[]): void {
 	let pressReleaseKeys = (keyCodes: number | number[]): void => {
 		// convert keyCodes into an array if its a number
 		keyCodes = typeof keyCodes === 'number' ? [keyCodes] : keyCodes;

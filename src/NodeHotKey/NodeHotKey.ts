@@ -3,19 +3,27 @@ import { KEYCODES } from './utils/Keycodes';
 import { releaseKey, pressKey } from './utils/KeyboardMouse';
 import { runMacro } from './utils/RunMacro';
 import { areKeysPressed } from './utils/AreKeysPressed';
+import { matchCurrentWindowTitle } from './utils/Window';
 const EventEmitter = require('events');
 
 export type MacroType = {
-	[key: string]: {
-		hotkeys?: number[];
-		hotstring?: string;
-		loop?: number;
-		steps: MacroStepType[];
-	};
-};
+	[key: string]: MacroObjectType;
+}
+
+type MacroObjectType = {
+	hotkeys?: number[];
+	hotstring?: string;
+	loop?: number;
+	conditions?: ConditionsType;
+	steps: MacroStepType[];
+}
+
+type ConditionsType = {
+	window?: string | RegExp;
+}
 
 export type MacroStepType = {
-	click?: ClickObject | number | number[];
+	click?: ClickType | number | number[];
 	pressKey?: number;
 	paste?: string;
 	releaseKey?: number;
@@ -24,11 +32,11 @@ export type MacroStepType = {
 	func?: FuncType;
 }
 
-export type ClickObject = {
+export type ClickType = {
 	key: number;
 	modifiers?: number | number[];
 	times?: number
-};
+}
 
 export type FuncType = (
 	pressKey: (keyCode: number) => void,
@@ -101,7 +109,11 @@ export class NodeHotKey extends EventEmitter {
 		if (this.isRobotOn === false && this.justRanMacro === false) {
 			Object.keys(this.macros).forEach(key => {
 				let macro = this.macros[key];
-				if (macro.hotkeys && areKeysPressed(macro.hotkeys, this.keyboardStateCurr, this.mouseStateCurr)) {
+				if (
+					macro.hotkeys &&
+					areKeysPressed(macro.hotkeys, this.keyboardStateCurr, this.mouseStateCurr) &&
+					this.matchMacroConditions(macro.conditions)
+				) {
 					let eventData = {
 						macroName: key
 					};
@@ -114,6 +126,7 @@ export class NodeHotKey extends EventEmitter {
 					macro.hotkeys.forEach(keyCode => {
 						releaseKey(keyCode);
 					});
+
 					runMacro(macro.steps);
 				}
 			});
@@ -175,7 +188,11 @@ export class NodeHotKey extends EventEmitter {
 			if (process.env.NODE_ENV === 'dev') console.log('Hostring recorded:', this.currHotstring);
 			Object.keys(this.macros).forEach(key => {
 				let macro = this.macros[key];
-				if (macro.hotstring && macro.hotstring === this.currHotstring) {
+				if (
+					macro.hotstring &&
+					macro.hotstring === this.currHotstring &&
+					this.matchMacroConditions(macro.conditions)
+				) {
 					let eventData = {
 						macroName: key,
 						hotString: macro.hotstring,
@@ -194,15 +211,31 @@ export class NodeHotKey extends EventEmitter {
 			let macro = this.macros[key];
 			if (macro.loop) {
 				setInterval(() => {
-					runMacro(macro.steps);
-					let eventData = {
-						macroName: key,
-						loopInterval: macro.loop,
-					};
-					this.emitEvent(this.eventTypes.loopTriggered, eventData, key);
+					if (this.matchMacroConditions(macro.conditions)) {
+						let eventData = {
+							macroName: key,
+							loopInterval: macro.loop,
+						};
+						this.emitEvent(this.eventTypes.loopTriggered, eventData, key);
+						runMacro(macro.steps);
+					}
 				}, macro.loop * 1000);
 			}
 		});
+	}
+
+	private matchMacroConditions(conditions: ConditionsType | undefined): boolean {
+		// if conditions are not specified always return true
+		if (conditions === undefined) {
+			return true;
+		}
+
+		//start matching all the conditions one by one
+		if (conditions.window && !matchCurrentWindowTitle(conditions.window)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public constructor(macros?: MacroType) {
