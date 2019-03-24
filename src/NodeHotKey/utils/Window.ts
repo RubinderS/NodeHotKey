@@ -7,7 +7,7 @@ import robot from 'robot-js';
  * @returns {boolean} true the current active window's title matches the given argument
  */
 export function matchCurrentWindowTitle(title: string | RegExp): boolean {
-    let windowTitle: string = robot.Window.getActive();
+    let windowTitle: string = robot.Window.getActive().getTitle();
     let titleRegExp: RegExp;
 
     if (typeof title === 'string') {
