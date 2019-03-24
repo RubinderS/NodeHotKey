@@ -3,6 +3,7 @@ import { pressKey, releaseKey, click, type, paste } from './KeyboardMouse';
 import { setClipboardText, getClipboardText } from './Clipboard';
 import { KEYCODES } from './Keycodes';
 import { wait } from './Wait';
+import { matchCurrentWindowTitle } from './Window';
 
 export function runMacro(steps: MacroStepType[]) {
 
@@ -37,7 +38,7 @@ export function runMacro(steps: MacroStepType[]) {
 		}
 
 		if (step.func !== undefined) {
-			step.func(pressKey, releaseKey, click, type, paste, wait, setClipboardText, getClipboardText);
+			step.func(pressKey, releaseKey, click, type, paste, wait, setClipboardText, getClipboardText, matchCurrentWindowTitle);
 		}
 
 	});

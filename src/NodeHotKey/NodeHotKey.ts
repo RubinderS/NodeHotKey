@@ -46,7 +46,8 @@ export type FuncType = (
 	paste: (text: string) => void,
 	wait: (milliseconds: number) => void,
 	setClipboardText: (text: string) => void,
-	getClipboardText: () => string
+	getClipboardText: () => string,
+	matchCurrentWindowTitle: (title: string | RegExp) => boolean
 )
 	=> void;
 
