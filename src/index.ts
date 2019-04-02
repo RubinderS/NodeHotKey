@@ -1,2 +1,2 @@
-export { NodeHotKey } from './NodeHotKey';
+export * from './NodeHotKey';
 export * from './utils';
