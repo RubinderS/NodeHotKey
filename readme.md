@@ -36,7 +36,7 @@ let macroConfig = {
             { wait: 2000 },
             { pressKey: kc._COMMA },
             { releaseKey: kc._COMMA },
-            { func: () => console.log('function called using hotkey') }
+            { func: () => console.log('Call JavaScript functions using hotkeys') }
         ]
     },
 }
@@ -47,7 +47,7 @@ let nhk = new NodeHotKey(macroConfig);
 nhk.startListening();
 ```
 
-For more sample Marco configs see the sample project at the bottom of this page.  
+For more sample Marco configs  check out **[MacroSamples_NodeHotKey](https://github.com/Rubinder25/MacroSamples_NodeHotKey)**.
 ## Events
 ```javascript
 nhk.on(nhk.eventTypes.keyPressed, (eventData) => {
@@ -93,9 +93,8 @@ nhk.on(nhk.eventTypes.keyPressed, (eventData) => {
 
 // nhk.stopListening(); // terminates the program
 ```
-## Sample Project
-This is a sample project built using NodeHotKey package:-
-https://github.com/Rubinder25/SampleProject_using_NodeHotKey
+## Sample Macros
+https://github.com/Rubinder25/MacroSamples_NodeHotKey
 
 > email: mail2rubinder@gmail.com
 
