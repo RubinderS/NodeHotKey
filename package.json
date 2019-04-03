@@ -1,6 +1,6 @@
 {
   "name": "nodehotkey",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Authotkey like macros for NodeJS",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -33,6 +33,9 @@
     "hotkeys",
     "hotkey",
     "hotstrings",
-    "hotstring"
+    "hotstring",
+    "clipboard",
+    "keyboard",
+    "mouse"
   ]
 }
