@@ -70,7 +70,7 @@ export function click(click: ClickType | number | number[]): void {
  */
 export function paste(text: string): void {
 	let tempClipText = getClipboardText();
-	let delay = 100;
+	let delay = 200;
 
 	setClipboardText(text);
 	wait(delay);
