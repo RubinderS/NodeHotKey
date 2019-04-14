@@ -38,7 +38,7 @@ export function runMacro(steps: MacroStepType[]) {
 		}
 
 		if (step.func !== undefined) {
-			step.func(pressKey, releaseKey, click, type, paste, wait, setClipboardText, getClipboardText, matchCurrentWindowTitle);
+			step.func({ pressKey, releaseKey, click, type, paste, wait, setClipboardText, getClipboardText, matchCurrentWindowTitle });
 		}
 
 	});
