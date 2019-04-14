@@ -39,17 +39,20 @@ export type ClickType = {
 }
 
 export type FuncType = (
+	tools: ToolsType
+) => void
+
+export type ToolsType = {
 	pressKey: (keyCode: number) => void,
 	releaseKey: (keyCode: number) => void,
-	clickKey: (keyCode: number) => void,
+	click: (click: ClickType) => void,
 	type: (text: string) => void,
 	paste: (text: string) => void,
 	wait: (milliseconds: number) => void,
 	setClipboardText: (text: string) => void,
 	getClipboardText: () => string,
 	matchCurrentWindowTitle: (title: string | RegExp) => boolean
-)
-	=> void;
+}
 
 export class NodeHotKey extends EventEmitter {
 	private readonly robot = require('robot-js');
