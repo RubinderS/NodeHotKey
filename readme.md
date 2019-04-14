@@ -101,5 +101,5 @@ https://github.com/Rubinder25/MacroSamples_NodeHotKey
 ## License
 ISC
 
-> **Note:** currently Node V10 is not supported
+**Note:** currently Node V10 is not supported
 
