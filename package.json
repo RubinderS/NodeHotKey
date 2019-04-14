@@ -18,6 +18,9 @@
     "@types/node": "10.12.21",
     "cross-env": "5.2.0"
   },
+  "engines": {
+    "node": "0.12 - 9"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Rubinder25/NodeHotKey"
