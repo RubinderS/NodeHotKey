@@ -6,7 +6,7 @@ https://github.com/Rubinder25/NodeHotKey
 https://www.npmjs.com/package/nodehotkey  
 This is an autohotkey like library built in NodeJs
 
-## Feautes
+## Features
 
 1. Make global Macros and assign hotkeys to trigger them
 2. Catch global keyboard/mouse events in your code
