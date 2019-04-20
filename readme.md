@@ -4,7 +4,9 @@
 # NodeHotKey
 https://github.com/Rubinder25/NodeHotKey  
 https://www.npmjs.com/package/nodehotkey  
-This is an autohotkey like library. It can be used for 3 purposes:-
+This is an autohotkey like library built in NodeJs
+
+## Feautes
 
 1. Make global Macros and assign hotkeys to trigger them
 2. Catch global keyboard/mouse events in your code
