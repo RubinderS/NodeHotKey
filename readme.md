@@ -4,7 +4,7 @@
 # NodeHotKey
 https://github.com/Rubinder25/NodeHotKey  
 https://www.npmjs.com/package/nodehotkey  
-This is an autohotkey like library built in NodeJs
+This is an autohotkey like library for NodeJs
 
 ## Features
 
