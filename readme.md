@@ -31,16 +31,14 @@ Macros are pre-defined steps that can be triggered by either pressing hotkeys or
 ```javascript
 let macroConfig = {
     'Name of the Macro': {
-        keys: [kc._CONTROL, kc._E],
-        steps: [
-            { type: 'This Macro can be triggered by pressing CTRL+E\n' },
-            { type: "Wait for 3 secs then press ','  " },
-            { wait: 2000 },
-            { pressKey: kc._COMMA },
-            { releaseKey: kc._COMMA },
-            { func: () => console.log('Call JavaScript functions using hotkeys') }
-        ]
-    },
+		hotkeys: [kc._CONTROL, kc._E],
+		steps: [
+			{ type: 'This Macro can be triggered by pressing CTRL+E\n' },
+			{ type: "Wait for 3 secs then press ','  " },
+			{ wait: 3000 },
+			{ click: kc._COMMA }
+		]
+	},
 }
 ```
 we can then pass this macroConfig to constructor of NodeHotKey like this:-
@@ -74,15 +72,15 @@ releaseKey(kc._A);
 
 let macroConfig = {
 'Name of the Macro': {
-		keys: [kc._CONTROL, kc._E],
+    'Name of the Macro': {
+		hotkeys: [kc._CONTROL, kc._E],
 		steps: [
 			{ type: 'This Macro can be triggered by pressing CTRL+E\n' },
 			{ type: "Wait for 3 secs then press ','  " },
-			{ wait: 2000 },
-			{ pressKey: kc._COMMA },
-			{ releaseKey: kc._COMMA }
+			{ wait: 3000 },
+			{ click: kc._COMMA }
 		]
-    },
+	},
 }
 
 let nhk = new NodeHotKey(macroConfig);
