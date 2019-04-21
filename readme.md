@@ -38,7 +38,7 @@ let macroConfig = {
 			{ wait: 3000 },
 			{ click: kc._COMMA }
 		]
-	},
+	}
 }
 ```
 we can then pass this macroConfig to constructor of NodeHotKey like this:-
@@ -71,16 +71,15 @@ pressKey(kc._A);
 releaseKey(kc._A);
 
 let macroConfig = {
-'Name of the Macro': {
     'Name of the Macro': {
-		hotkeys: [kc._CONTROL, kc._E],
-		steps: [
-			{ type: 'This Macro can be triggered by pressing CTRL+E\n' },
-			{ type: "Wait for 3 secs then press ','  " },
-			{ wait: 3000 },
-			{ click: kc._COMMA }
-		]
-	},
+        hotkeys: [kc._CONTROL, kc._E],
+        steps: [
+            { type: 'This Macro can be triggered by pressing CTRL+E\n' },
+            { type: "Wait for 3 secs then press ','  " },
+            { wait: 3000 },
+            { click: kc._COMMA }
+        ]
+    }
 }
 
 let nhk = new NodeHotKey(macroConfig);
