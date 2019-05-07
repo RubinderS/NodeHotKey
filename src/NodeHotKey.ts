@@ -261,6 +261,7 @@ export class NodeHotKey extends EventEmitter {
 
 			return true;
 		}
+		
 		/**
 		 * start listening for keyboard, mouse and Macro events
 		 * @returns {void}
@@ -294,6 +295,7 @@ export class NodeHotKey extends EventEmitter {
 				detectHotKeyEvents();
 			}, 0);
 		}
+
 		/**
 		 * stop listening for keyboard and mouse events
 		 * @returns {void}
