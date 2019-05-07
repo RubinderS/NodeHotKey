@@ -55,242 +55,253 @@ export type ToolsType = {
 }
 
 export class NodeHotKey extends EventEmitter {
-	private readonly robot = require('robot-js');
-	private readonly timer = this.robot.Timer();
-	private readonly doubleKeyCodes = [160, 161, 162, 163, 164, 165];
 
-	private listeningInterval: NodeJS.Timeout | null;
-	private macros: MacroType;
-	private currHotstring: string;
-	private justRanMacro: boolean;
-	private isRobotOn: boolean;
-	private keyboardStatePrev: any;
-	private keyboardStateCurr: any;
-	private mouseStatePrev: any;
-	private mouseStateCurr: any;
-
-	public readonly eventTypes = {
-		keyReleased: 'keyReleased',
-		keyPressed: 'keyPressed',
-		mouseKeyPressed: 'mouseKeyPressed',
-		mouseKeyReleased: 'mouseKeyReleased',
-		hotKeyTriggered: 'hotKeyTriggered',
-		hotstringTriggered: 'hotstringTriggered',
-		loopTriggered: 'loopTriggered'
-	};
-
-	private checkRobotOn(keyCode: string) {
-		let timeElapsed = 0;
-		// if key is in exception list don't run the function and simply return false
-		// e.g. for Shift keycodes 16, 160 and 161 all are triggred together which may cause misleading results
-		if (this.doubleKeyCodes.indexOf(Number(keyCode)) !== -1) return false;
-
-		if (this.keyboardStatePrev[keyCode] !== this.keyboardStateCurr[keyCode]) {
-			if (this.timer.hasStarted()) {
-				timeElapsed = this.timer.getElapsed();
-				this.timer.reset();
-			}
-			this.timer.start();
-			if (process.env.NODE_ENV === 'dev') console.log('Timer elapsed:', timeElapsed);
-
-			if (timeElapsed < 10) {
-				// the keys are being pressed by robot
-				return true;
-			} else {
-				//the keys are being pressed by human
-				return false;
-			}
-		}
-		return false;
-	}
-
-	private emitEvent(eventType: string, eventData: any, outConsole: string) {
-		this.emit(eventType, eventData);
-		if (process.env.NODE_ENV === 'dev') console.log(eventType + ':', outConsole);
-	}
-
-	private detectHotKeyEvents() {
-		if (this.isRobotOn === false && this.justRanMacro === false) {
-			Object.keys(this.macros).forEach(key => {
-				let macro = this.macros[key];
-				if (
-					macro.hotkeys &&
-					areKeysPressed(macro.hotkeys, this.keyboardStateCurr, this.mouseStateCurr) &&
-					this.matchMacroConditions(macro.conditions)
-				) {
-					let eventData = {
-						macroName: key
-					};
-					this.emitEvent(this.eventTypes.hotKeyTriggered, eventData, eventData.macroName);
-					this.justRanMacro = true;
-					setTimeout(() => {
-						this.justRanMacro = false;
-					}, 500);
-					this.doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
-					macro.hotkeys.forEach(keyCode => {
-						releaseKey(keyCode);
-					});
-
-					runMacro(macro.steps);
-				}
-			});
-		}
-	}
-
-	private detectMouseEvents() {
-		Object.keys(this.mouseStateCurr).forEach((keyCode: string) => {
-
-			let eventData = {
-				keyCode: keyCode,
-				mouseState: this.mouseStateCurr,
-				isRobotOn: this.isRobotOn
-			};
-			// Mouse key pressed
-			if (this.mouseStatePrev[keyCode] === false && this.mouseStateCurr[keyCode] === true) {
-				if (!this.isRobotOn) {
-					this.isRobotOn = this.checkRobotOn(keyCode);
-				}
-
-				this.emitEvent(this.eventTypes.mouseKeyPressed, eventData, eventData.keyCode);
-				this.currHotstring = '';
-			}
-			// Mouse key released
-			if (this.mouseStatePrev[keyCode] === true && this.mouseStateCurr[keyCode] === false) {
-				this.emitEvent(this.eventTypes.mouseKeyReleased, eventData, eventData.keyCode);
-			}
-		});
-	}
-
-	private detectKeyboardEvents() {
-		Object.keys(this.keyboardStateCurr).forEach((keyCode: string) => {
-			let eventData = {
-				keyCode: keyCode,
-				keyboardState: this.keyboardStateCurr,
-				isRobotOn: this.isRobotOn
-			};
-			// Keyboard key pressed
-			if (this.keyboardStatePrev[keyCode] === false && this.keyboardStateCurr[keyCode] === true) {
-				if (!this.isRobotOn) {
-					this.isRobotOn = this.checkRobotOn(keyCode);
-				}
-
-				this.emitEvent(this.eventTypes.keyPressed, eventData, eventData.keyCode);
-			}
-			// Keyboard key released
-			if (this.keyboardStatePrev[keyCode] === true && this.keyboardStateCurr[keyCode] === false) {
-				this.emitEvent(this.eventTypes.keyReleased, eventData, eventData.keyCode);
-			}
-		});
-	}
-
-	private detectHotstringEvents(keyCode: string, isShiftOn: boolean) {
-		if (this.isRobotOn) {
-			this.currHotstring = '';
-		}
-		else {
-			this.currHotstring = getUpdatedHotstring(keyCode, isShiftOn, this.currHotstring);
-			if (process.env.NODE_ENV === 'dev') console.log('Hostring recorded:', this.currHotstring);
-			Object.keys(this.macros).forEach(key => {
-				let macro = this.macros[key];
-				if (
-					macro.hotstring &&
-					macro.hotstring === this.currHotstring &&
-					this.matchMacroConditions(macro.conditions)
-				) {
-					let eventData = {
-						macroName: key,
-						hotString: macro.hotstring,
-					};
-					this.doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
-					this.currHotstring = '';
-					fireHotstring(macro.hotstring, macro.steps);
-					this.emitEvent(this.eventTypes.hotstringTriggered, eventData, eventData.hotString);
-				}
-			});
-		}
-	}
-
-	private startLoops() {
-		Object.keys(this.macros).forEach(key => {
-			let macro = this.macros[key];
-			if (macro.loop) {
-				setInterval(() => {
-					if (this.matchMacroConditions(macro.conditions)) {
-						let eventData = {
-							macroName: key,
-							loopInterval: macro.loop,
-						};
-						this.emitEvent(this.eventTypes.loopTriggered, eventData, key);
-						runMacro(macro.steps);
-					}
-				}, macro.loop * 1000);
-			}
-		});
-	}
-
-	private matchMacroConditions(conditions: ConditionsType | undefined): boolean {
-		// if conditions are not specified always return true
-		if (conditions === undefined) {
-			return true;
-		}
-
-		//start matching all the conditions one by one
-		if (conditions.window && !matchCurrentWindowTitle(conditions.window)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public constructor(macros?: MacroType) {
+	public constructor(pMacros?: MacroType) {
 		super();
+		const robot = require('robot-js');
+		const timer = robot.Timer();
+		const doubleKeyCodes = [160, 161, 162, 163, 164, 165];
+
+		let listeningInterval: NodeJS.Timeout | null;
+		let macros: MacroType;
+		let currHotstring: string;
+		let justRanMacro: boolean;
+		let isRobotOn: boolean;
+		let keyboardStatePrev: any;
+		let keyboardStateCurr: any;
+		let mouseStatePrev: any;
+		let mouseStateCurr: any;
 		let emptyMacrosObject = {
 			'EmptyMacro': { steps: [] }
 		};
-		this.macros = macros || emptyMacrosObject;
-		this.listeningInterval = null;
-		this.currHotstring = '';
-		this.justRanMacro = false;
-		this.isRobotOn = false;
+
+		const eventTypes = {
+			keyReleased: 'keyReleased',
+			keyPressed: 'keyPressed',
+			mouseKeyPressed: 'mouseKeyPressed',
+			mouseKeyReleased: 'mouseKeyReleased',
+			hotKeyTriggered: 'hotKeyTriggered',
+			hotstringTriggered: 'hotstringTriggered',
+			loopTriggered: 'loopTriggered'
+		};
+
+		macros = pMacros || emptyMacrosObject;
+		listeningInterval = null;
+		currHotstring = '';
+		justRanMacro = false;
+		isRobotOn = false;
+		const emit = this.emit.bind(this);
+		const on = this.on.bind(this);
+
+		function checkRobotOn(keyCode: string) {
+			let timeElapsed = 0;
+			// if key is in exception list don't run the function and simply return false
+			// e.g. for Shift keycodes 16, 160 and 161 all are triggred together which may cause misleading results
+			if (doubleKeyCodes.indexOf(Number(keyCode)) !== -1) {
+				return false;
+			}
+
+			if (keyboardStatePrev[keyCode] !== keyboardStateCurr[keyCode]) {
+				if (timer.hasStarted()) {
+					timeElapsed = timer.getElapsed();
+					timer.reset();
+				}
+				timer.start();
+				if (process.env.NODE_ENV === 'dev') console.log('Timer elapsed:', timeElapsed);
+
+				if (timeElapsed < 10) {
+					// the keys are being pressed by robot
+					return true;
+				} else {
+					//the keys are being pressed by human
+					return false;
+				}
+			}
+			return false;
+		}
+
+		function emitEvent(eventType: string, eventData: any, outConsole: string) {
+			emit(eventType, eventData);
+			if (process.env.NODE_ENV === 'dev') {
+				console.log(eventType + ':', outConsole)
+			}
+		}
+
+		function detectHotKeyEvents() {
+			if (isRobotOn === false && justRanMacro === false) {
+				Object.keys(macros).forEach(key => {
+					let macro = macros[key];
+					if (
+						macro.hotkeys &&
+						areKeysPressed(macro.hotkeys, keyboardStateCurr, mouseStateCurr) &&
+						matchMacroConditions(macro.conditions)
+					) {
+						let eventData = {
+							macroName: key
+						};
+						emitEvent(eventTypes.hotKeyTriggered, eventData, eventData.macroName);
+						justRanMacro = true;
+						setTimeout(() => {
+							justRanMacro = false;
+						}, 500);
+						doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
+						macro.hotkeys.forEach(keyCode => {
+							releaseKey(keyCode);
+						});
+
+						runMacro(macro.steps);
+					}
+				});
+			}
+		}
+
+		function detectMouseEvents() {
+			Object.keys(mouseStateCurr).forEach((keyCode: string) => {
+
+				let eventData = {
+					keyCode: keyCode,
+					mouseState: mouseStateCurr,
+					isRobotOn: isRobotOn
+				};
+				// Mouse key pressed
+				if (mouseStatePrev[keyCode] === false && mouseStateCurr[keyCode] === true) {
+					if (!isRobotOn) {
+						isRobotOn = checkRobotOn(keyCode);
+					}
+
+					emitEvent(eventTypes.mouseKeyPressed, eventData, eventData.keyCode);
+					currHotstring = '';
+				}
+				// Mouse key released
+				if (mouseStatePrev[keyCode] === true && mouseStateCurr[keyCode] === false) {
+					emitEvent(eventTypes.mouseKeyReleased, eventData, eventData.keyCode);
+				}
+			});
+		}
+
+		function detectKeyboardEvents() {
+			Object.keys(keyboardStateCurr).forEach((keyCode: string) => {
+				let eventData = {
+					keyCode: keyCode,
+					keyboardState: keyboardStateCurr,
+					isRobotOn: isRobotOn
+				};
+				// Keyboard key pressed
+				if (keyboardStatePrev[keyCode] === false && keyboardStateCurr[keyCode] === true) {
+					if (!isRobotOn) {
+						isRobotOn = checkRobotOn(keyCode);
+					}
+
+					emitEvent(eventTypes.keyPressed, eventData, eventData.keyCode);
+				}
+				// Keyboard key released
+				if (keyboardStatePrev[keyCode] === true && keyboardStateCurr[keyCode] === false) {
+					emitEvent(eventTypes.keyReleased, eventData, eventData.keyCode);
+				}
+			});
+		}
+
+		function detectHotstringEvents(keyCode: string, isShiftOn: boolean) {
+			if (isRobotOn) {
+				currHotstring = '';
+			}
+			else {
+				currHotstring = getUpdatedHotstring(keyCode, isShiftOn, currHotstring);
+				if (process.env.NODE_ENV === 'dev') {
+					console.log('Hostring recorded:', currHotstring);
+				}
+				Object.keys(macros).forEach(key => {
+					let macro = macros[key];
+					if (
+						macro.hotstring &&
+						macro.hotstring === currHotstring &&
+						matchMacroConditions(macro.conditions)
+					) {
+						let eventData = {
+							macroName: key,
+							hotString: macro.hotstring,
+						};
+						doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
+						currHotstring = '';
+						fireHotstring(macro.hotstring, macro.steps);
+						emitEvent(eventTypes.hotstringTriggered, eventData, eventData.hotString);
+					}
+				});
+			}
+		}
+
+		function startLoops() {
+			Object.keys(macros).forEach(key => {
+				let macro = macros[key];
+				if (macro.loop) {
+					setInterval(() => {
+						if (matchMacroConditions(macro.conditions)) {
+							let eventData = {
+								macroName: key,
+								loopInterval: macro.loop,
+							};
+							emitEvent(eventTypes.loopTriggered, eventData, key);
+							runMacro(macro.steps);
+						}
+					}, macro.loop * 1000);
+				}
+			});
+		}
+
+		function matchMacroConditions(conditions: ConditionsType | undefined): boolean {
+			// if conditions are not specified always return true
+			if (conditions === undefined) {
+				return true;
+			}
+
+			//start matching all the conditions one by one
+			if (conditions.window && !matchCurrentWindowTitle(conditions.window)) {
+				return false;
+			}
+
+			return true;
+		}
+		/**
+		 * start listening for keyboard, mouse and Macro events
+		 * @returns {void}
+		 */
+		this.startListening = function () {
+			keyboardStatePrev = robot.Keyboard.getState();
+			mouseStatePrev = robot.Mouse.getState();
+
+			// Hotstrings
+			on(eventTypes.keyPressed, (eventData: any) => {
+				detectHotstringEvents(eventData.keyCode, eventData.keyboardState[KEYCODES._SHIFT]);
+			});
+
+			//Loops
+			startLoops();
+
+			listeningInterval = setInterval(() => {
+				isRobotOn = false;
+
+				// Keyboard
+				keyboardStateCurr = robot.Keyboard.getState();
+				detectKeyboardEvents();
+				keyboardStatePrev = keyboardStateCurr;
+
+				// Mouse
+				mouseStateCurr = robot.Mouse.getState();
+				detectMouseEvents();
+				mouseStatePrev = mouseStateCurr;
+
+				// Macros
+				detectHotKeyEvents();
+			}, 0);
+		}
+		/**
+		 * stop listening for keyboard and mouse events
+		 * @returns {void}
+		 */
+		this.stopListening = function () {
+			if (listeningInterval) {
+				clearInterval(listeningInterval);
+			};
+		}
 	}
-	/**
-	 * start listening for keyboard, mouse and Macro events
-	 * @returns {void}
-	 */
-	public startListening() {
-		this.keyboardStatePrev = this.robot.Keyboard.getState();
-		this.mouseStatePrev = this.robot.Mouse.getState();
-
-		// Hotstrings
-		this.on(this.eventTypes.keyPressed, (eventData: any) => {
-			this.detectHotstringEvents(eventData.keyCode, eventData.keyboardState[KEYCODES._SHIFT]);
-		});
-
-		this.startLoops();
-
-		this.listeningInterval = setInterval(() => {
-			this.isRobotOn = false;
-
-			// Keyboard
-			this.keyboardStateCurr = this.robot.Keyboard.getState();
-			this.detectKeyboardEvents();
-			this.keyboardStatePrev = this.keyboardStateCurr;
-
-			// Mouse
-			this.mouseStateCurr = this.robot.Mouse.getState();
-			this.detectMouseEvents();
-			this.mouseStatePrev = this.mouseStateCurr;
-
-			// Macros
-			this.detectHotKeyEvents();
-		}, 0);
-	}
-	/**
-	 * stop listening for keyboard and mouse events
-	 * @returns {void}
-	 */
-	public stopListening() {
-		if (this.listeningInterval) clearInterval(this.listeningInterval);
-	}
-
 }
