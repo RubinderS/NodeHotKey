@@ -301,7 +301,7 @@ export class NodeHotKey extends EventEmitter {
 		this.stopListening = function () {
 			if (listeningInterval) {
 				clearInterval(listeningInterval);
-			};
+			}
 		}
 	}
 }
