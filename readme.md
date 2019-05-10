@@ -17,7 +17,7 @@ This is an autohotkey like library for NodeJs
 follow this page to install dependencies for robot-js on your platform: http://getrobot.net/docs/usage.html
 
 ## import
-`import { NodeHotKey } from 'NodeHotKey';`
+`import { NodeHotKey } from 'nodehotkey';`
 ## Initialize the object
 ```javascript
 let nhk = new NodeHotKey({});
