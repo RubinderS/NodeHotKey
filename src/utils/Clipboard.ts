@@ -5,7 +5,7 @@ import robot from 'robot-js';
  * @returns {string}
  */
 export function getClipboardText(): string {
-	return robot.Clipboard.getText();
+    return robot.Clipboard.getText();
 }
 /**
  * set text to clipboard
@@ -13,5 +13,5 @@ export function getClipboardText(): string {
  * @returns {void} 
  */
 export function setClipboardText(text: string): void {
-	robot.Clipboard.setText(text);
+    robot.Clipboard.setText(text);
 }

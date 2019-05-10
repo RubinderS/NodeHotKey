@@ -7,9 +7,9 @@
  * @returns {boolean}
  */
 export function areKeysPressed(keyCodeArr: number[], keyboardState: any, mouseState: any): boolean {
-	let keysArePressed = true;
-	keyCodeArr.forEach(keyCode => {
-		if (!keyboardState[keyCode] && !mouseState[keyCode]) keysArePressed = false;
-	});
-	return keysArePressed;
+    let keysArePressed = true;
+    keyCodeArr.forEach(keyCode => {
+        if (!keyboardState[keyCode] && !mouseState[keyCode]) keysArePressed = false;
+    });
+    return keysArePressed;
 }
