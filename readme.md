@@ -36,7 +36,8 @@ let macroConfig = {
 			{ type: 'This Macro can be triggered by pressing CTRL+E\n' },
 			{ type: "Wait for 3 secs then press ','  " },
 			{ wait: 3000 },
-			{ click: kc._COMMA }
+			{ click: kc._COMMA },
+            { func: (tools: ToolsType) => { tools.type('Run JavaScript functions by pressing hotkeys') } }
 		]
 	}
 }
@@ -59,12 +60,12 @@ following are the utility functions present in the package:-
 ```javascript
 import { pressKey, releaseKey, click,
         type, paste, wait, setClipboardText, 
-        getClipboardText, matchCurrentWindowTitle } from './NodeHotKey'; 
+        getClipboardText, matchCurrentWindowTitle } from 'nodehotkey'; 
 ```
 ## Putting it all together
 
 ```javascript
-import { NodeHotKey, pressKey,releaseKey, KEYCODES as kc } from './NodeHotKey';
+import { NodeHotKey, pressKey,releaseKey, KEYCODES as kc } from 'nodehotkey';
 
 // press key
 pressKey(kc._A);
@@ -77,7 +78,8 @@ let macroConfig = {
             { type: 'This Macro can be triggered by pressing CTRL+E\n' },
             { type: "Wait for 3 secs then press ','  " },
             { wait: 3000 },
-            { click: kc._COMMA }
+            { click: kc._COMMA },
+            { func: (tools: ToolsType) => { tools.type('Run JavaScript functions by pressing hotkeys') } }
         ]
     }
 }
