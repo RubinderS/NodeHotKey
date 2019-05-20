@@ -66,7 +66,7 @@ export class NodeHotKey extends EventEmitter {
 	* @returns {void}
 	*/
 	stopListening: () => void;
-	
+
 	readonly eventTypes:{[key:string]: string};
 
     public constructor(pMacros?: MacroType) {
@@ -96,15 +96,15 @@ export class NodeHotKey extends EventEmitter {
             hotKeyTriggered: 'hotKeyTriggered',
             hotstringTriggered: 'hotstringTriggered',
             loopTriggered: 'loopTriggered'
-        };
-
+		};
+		const emit = this.emit.bind(this);
+		const on = this.on.bind(this);
+		
         macros = pMacros || emptyMacrosObject;
         listeningInterval = null;
         currHotstring = '';
         justRanMacro = false;
-        isRobotOn = false;
-        const emit = this.emit.bind(this);
-        const on = this.on.bind(this);
+		isRobotOn = false;
 
         function checkRobotOn(keyCode: string) {
             let timeElapsed = 0;
