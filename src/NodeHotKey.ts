@@ -55,6 +55,19 @@ export type ToolsType = {
 }
 
 export class NodeHotKey extends EventEmitter {
+	/**
+	* start listening for keyboard, mouse and Macro events
+	* @returns {void}
+	*/
+	startListening: () => void;
+
+	/**
+	* stop listening for keyboard and mouse events
+	* @returns {void}
+	*/
+	stopListening: () => void;
+	
+	readonly eventTypes:{[key:string]: string};
 
     public constructor(pMacros?: MacroType) {
         super();
@@ -262,11 +275,7 @@ export class NodeHotKey extends EventEmitter {
             return true;
         }
 
-		/**
-		 * start listening for keyboard, mouse and Macro events
-		 * @returns {void}
-		 */
-        this.startListening = function () {
+        function startListening() {
             keyboardStatePrev = robot.Keyboard.getState();
             mouseStatePrev = robot.Mouse.getState();
 
@@ -296,14 +305,14 @@ export class NodeHotKey extends EventEmitter {
             }, 0);
         }
 
-		/**
-		 * stop listening for keyboard and mouse events
-		 * @returns {void}
-		 */
-        this.stopListening = function () {
+       	function stopListening() {
             if (listeningInterval) {
                 clearInterval(listeningInterval);
             }
-        }
+		}
+		
+		this.startListening = startListening;
+		this.stopListening = stopListening;
+		this.eventTypes = eventTypes;
     }
 }
