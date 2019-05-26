@@ -9,8 +9,9 @@ This is an autohotkey like library for NodeJs
 ## Features
 
 1. Make global Macros and assign hotkeys to trigger them
-2. Catch global keyboard/mouse events in your code
-3. Operate keyboard,mouse and clipboard from code
+2. Make global hotstrings to expand text as you type it
+3. Catch global keyboard/mouse events in your code
+4. Operate keyboard, mouse and clipboard from code
 # Usage
 ## Install
 `npm install nodehotkey --save`  
@@ -22,8 +23,8 @@ follow this page to install dependencies for robot-js on your platform: http://g
 ```javascript
 let nhk = new NodeHotKey({});
 ```
-Currently we are passing an empty object. A Macro Config object can be passed to the constructor in order to create autohotkey like macros.
-Please refer the next section for this.
+Currently, we are passing an empty object. A Macro Config object can be passed to the constructor in order to create AutoHotkey like macros.
+Please refer to the next section for this.
 
 ## Macro
 Macros are pre-defined steps that can be triggered by either pressing hotkeys or typing hotstrings. These can be defined as JavaScript objects.
