@@ -39,9 +39,9 @@ let macroConfig = {
 			{ wait: 3000 },
 			{ click: kc._COMMA },
 			{ func: tools => { 
-                tools.type('Run JavaScript functions by pressing hotkeys'); 
-              } 
-            }
+					tools.type('Run JavaScript functions by pressing hotkeys'); 
+					} 
+			}
 		]
 	}
 }
