@@ -1,6 +1,5 @@
-// @ts-ignore
 import robot from 'robot-js';
-import { ClickType, MacroStepType } from '../NodeHotKey';
+import { ClickType } from '../NodeHotKey';
 import { setClipboardText, getClipboardText } from './Clipboard';
 import { wait } from './Wait';
 import { KEYCODES as KC } from './Keycodes';

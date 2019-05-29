@@ -1,4 +1,3 @@
-// @ts-ignore
 import robot from 'robot-js';
 // https://www.mods.com.au/budapi_docs/Virtual%20Key%20Codes.htm
 
