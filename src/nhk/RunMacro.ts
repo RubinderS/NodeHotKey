@@ -1,9 +1,9 @@
-import { MacroStepType } from '../NodeHotKey';
-import { pressKey, releaseKey, click, type, paste } from './KeyboardMouse';
-import { setClipboardText, getClipboardText } from './Clipboard';
-import { KEYCODES } from './Keycodes';
-import { wait } from './Wait';
-import { matchCurrentWindowTitle } from './Window';
+import { MacroStepType } from './NodeHotKey';
+import { pressKey, releaseKey, click, type, paste } from '../utils/KeyboardMouse';
+import { setClipboardText, getClipboardText } from '../utils/Clipboard';
+import { KEYCODES } from '../utils/Keycodes';
+import { wait } from '../utils/Wait';
+import { matchCurrentWindowTitle } from '../utils/Window';
 
 export function runMacro(steps: MacroStepType[]) {
 

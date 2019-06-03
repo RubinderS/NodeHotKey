@@ -1,7 +1,7 @@
 import { keyCodeToPrintableChar } from './KeyCodeToPrintableChar';
-import { click } from './KeyboardMouse';
-import { KEYCODES } from './Keycodes';
-import { MacroStepType } from '../NodeHotKey';
+import { click } from '../utils/KeyboardMouse';
+import { KEYCODES } from '../utils/Keycodes';
+import { MacroStepType } from './NodeHotKey';
 import { runMacro } from './RunMacro';
 
 export function getUpdatedHotstring(keyPressedCode: string, isShiftOn: boolean, currHotString: string): string {

@@ -1,9 +1,9 @@
-import { getUpdatedHotstring, fireHotstring } from './utils/FireHotstring';
-import { KEYCODES } from './utils/Keycodes';
-import { releaseKey, pressKey } from './utils/KeyboardMouse';
-import { runMacro } from './utils/RunMacro';
-import { areKeysPressed } from './utils/AreKeysPressed';
-import { matchCurrentWindowTitle } from './utils/Window';
+import { getUpdatedHotstring, fireHotstring } from './FireHotstring';
+import { KEYCODES } from '../utils/Keycodes';
+import { releaseKey, pressKey } from '../utils/KeyboardMouse';
+import { runMacro } from './RunMacro';
+import { areKeysPressed } from './AreKeysPressed';
+import { matchCurrentWindowTitle } from '../utils/Window';
 const EventEmitter = require('events');
 
 export type MacroType = {
@@ -59,15 +59,15 @@ export class NodeHotKey extends EventEmitter {
 	* start listening for keyboard, mouse and Macro events
 	* @returns {void}
 	*/
-	startListening: () => void;
+    startListening: () => void;
 
 	/**
 	* stop listening for keyboard and mouse events
 	* @returns {void}
 	*/
-	stopListening: () => void;
+    stopListening: () => void;
 
-	readonly eventTypes:{[key:string]: string};
+    readonly eventTypes: { [key: string]: string };
 
     public constructor(pMacros?: MacroType) {
         super();
@@ -96,15 +96,15 @@ export class NodeHotKey extends EventEmitter {
             hotKeyTriggered: 'hotKeyTriggered',
             hotstringTriggered: 'hotstringTriggered',
             loopTriggered: 'loopTriggered'
-		};
-		const emit = this.emit.bind(this);
-		const on = this.on.bind(this);
-		
+        };
+        const emit = this.emit.bind(this);
+        const on = this.on.bind(this);
+
         macros = pMacros || emptyMacrosObject;
         listeningInterval = null;
         currHotstring = '';
         justRanMacro = false;
-		isRobotOn = false;
+        isRobotOn = false;
 
         function checkRobotOn(keyCode: string) {
             let timeElapsed = 0;
@@ -168,6 +168,35 @@ export class NodeHotKey extends EventEmitter {
             }
         }
 
+        function detectHotstringEvents(keyCode: string, isShiftOn: boolean) {
+            if (isRobotOn) {
+                currHotstring = '';
+            }
+            else {
+                currHotstring = getUpdatedHotstring(keyCode, isShiftOn, currHotstring);
+                if (process.env.NODE_ENV === 'dev') {
+                    console.log('Hostring recorded:', currHotstring);
+                }
+                Object.keys(macros).forEach(key => {
+                    let macro = macros[key];
+                    if (
+                        macro.hotstring &&
+                        macro.hotstring === currHotstring &&
+                        matchMacroConditions(macro.conditions)
+                    ) {
+                        let eventData = {
+                            macroName: key,
+                            hotString: macro.hotstring,
+                        };
+                        doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
+                        currHotstring = '';
+                        fireHotstring(macro.hotstring, macro.steps);
+                        emitEvent(eventTypes.hotstringTriggered, eventData, eventData.hotString);
+                    }
+                });
+            }
+        }
+
         function detectMouseEvents() {
             Object.keys(mouseStateCurr).forEach((keyCode: string) => {
 
@@ -212,35 +241,6 @@ export class NodeHotKey extends EventEmitter {
                     emitEvent(eventTypes.keyReleased, eventData, eventData.keyCode);
                 }
             });
-        }
-
-        function detectHotstringEvents(keyCode: string, isShiftOn: boolean) {
-            if (isRobotOn) {
-                currHotstring = '';
-            }
-            else {
-                currHotstring = getUpdatedHotstring(keyCode, isShiftOn, currHotstring);
-                if (process.env.NODE_ENV === 'dev') {
-                    console.log('Hostring recorded:', currHotstring);
-                }
-                Object.keys(macros).forEach(key => {
-                    let macro = macros[key];
-                    if (
-                        macro.hotstring &&
-                        macro.hotstring === currHotstring &&
-                        matchMacroConditions(macro.conditions)
-                    ) {
-                        let eventData = {
-                            macroName: key,
-                            hotString: macro.hotstring,
-                        };
-                        doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
-                        currHotstring = '';
-                        fireHotstring(macro.hotstring, macro.steps);
-                        emitEvent(eventTypes.hotstringTriggered, eventData, eventData.hotString);
-                    }
-                });
-            }
         }
 
         function startLoops() {
@@ -305,14 +305,14 @@ export class NodeHotKey extends EventEmitter {
             }, 0);
         }
 
-       	function stopListening() {
+        function stopListening() {
             if (listeningInterval) {
                 clearInterval(listeningInterval);
             }
-		}
-		
-		this.startListening = startListening;
-		this.stopListening = stopListening;
-		this.eventTypes = eventTypes;
+        }
+
+        this.startListening = startListening;
+        this.stopListening = stopListening;
+        this.eventTypes = eventTypes;
     }
 }

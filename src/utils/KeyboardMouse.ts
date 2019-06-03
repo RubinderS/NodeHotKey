@@ -1,5 +1,5 @@
 import robot from 'robot-js';
-import { ClickType } from '../NodeHotKey';
+import { ClickType } from '../nhk/NodeHotKey';
 import { setClipboardText, getClipboardText } from './Clipboard';
 import { wait } from './Wait';
 import { KEYCODES as KC } from './Keycodes';
