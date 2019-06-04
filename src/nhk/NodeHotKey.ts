@@ -112,20 +112,21 @@ export class NodeHotKey extends EventEmitter {
       });
     }
 
-    function keyboardPressReleaseEvents(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): void {
-      function isKeyPressed(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): boolean {
-        if (keyStatePrev[keyCode] === false && keyStateCurr[keyCode] === true) {
-          return true;
-        }
-        return false;
+    function isKeyPressed(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): boolean {
+      if (keyStatePrev[keyCode] === false && keyStateCurr[keyCode] === true) {
+        return true;
       }
+      return false;
+    }
 
-      function isKeyReleased(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): boolean {
-        if (keyStatePrev[keyCode] === true && keyStateCurr[keyCode] === false) {
-          return true;
-        }
-        return false;
+    function isKeyReleased(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): boolean {
+      if (keyStatePrev[keyCode] === true && keyStateCurr[keyCode] === false) {
+        return true;
       }
+      return false;
+    }
+
+    function keyboardPressReleaseEvents(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): void {
 
       //key pressed
       if (isKeyPressed(keyStatePrev, keyStateCurr, keyCode)) {
