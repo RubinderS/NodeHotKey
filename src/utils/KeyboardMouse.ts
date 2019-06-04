@@ -1,5 +1,5 @@
 import robot from 'robot-js';
-import { ClickType } from '../nhk/NodeHotKey';
+import { ClickType } from '../types';
 import { setClipboardText, getClipboardText } from './Clipboard';
 import { wait } from './Wait';
 import { KEYCODES as KC } from './Keycodes';
@@ -275,7 +275,6 @@ export function type(text: string): void {
                 return '+]';
             case '~':
                 return '+`';
-
             case '\n':
                 return '{Enter}';
             case '':
@@ -284,6 +283,7 @@ export function type(text: string): void {
                 return '';
         }
     };
+
     keyboard.click(
         text
             .split('')

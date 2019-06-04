@@ -197,7 +197,9 @@ export function keyCodeToPrintableChar(keyNumber: number, isShiftOn: boolean): s
             shiftOff: '\''
         }
     };
+
     let keyMap = key2PrintMap[keyNumber];
+
     if (keyMap) {
         return isShiftOn ? keyMap.shiftOn : keyMap.shiftOff;
     } else {
