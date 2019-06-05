@@ -1,5 +1,4 @@
 import robot from 'robot-js';
-// https://www.mods.com.au/budapi_docs/Virtual%20Key%20Codes.htm
 
 export const KEYCODES = {
 	_0:                  robot.KEY_0,
