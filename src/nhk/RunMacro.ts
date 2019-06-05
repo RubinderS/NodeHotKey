@@ -1,4 +1,4 @@
-import { MacroStepType } from './NodeHotKey';
+import { MacroStepType } from '../../types/nhk-types';
 import { pressKey, releaseKey, click, type, paste } from '../utils/KeyboardMouse';
 import { setClipboardText, getClipboardText } from '../utils/Clipboard';
 import { KEYCODES } from '../utils/Keycodes';

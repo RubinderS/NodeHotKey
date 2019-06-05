@@ -1,10 +1,9 @@
 import { KEYCODES } from '../utils/Keycodes';
-import { releaseKey, pressKey, click } from '../utils/KeyboardMouse';
+import { releaseKey, click } from '../utils/KeyboardMouse';
 import { runMacro } from './RunMacro';
 import { matchCurrentWindowTitle } from '../utils/Window';
-import { MacroType, ConditionsType, KeyStateType } from '../types';
+import { MacroType, ConditionsType, KeyStateType } from '../../types/nhk-types';
 import { keyCodeToPrintableChar } from './KeyCodeToPrintableChar';
-import { detectHotKeyEvents, detectHotstringEvents } from './DetectMacros';
 const EventEmitter = require('events');
 
 export class NodeHotKey extends EventEmitter {
@@ -136,6 +135,7 @@ export class NodeHotKey extends EventEmitter {
           printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT])
         });
       }
+      
       // key released
       if (isKeyReleased(keyStatePrev, keyStateCurr, keyCode)) {
         emitEvent(eventTypes.keyReleased, `${keyCode} released`, {
