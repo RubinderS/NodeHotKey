@@ -1,7 +1,0 @@
-detectKeysPressed: number[]
-
-detectKeysReleased: number[]
-
-detectHotKeys: MacroType
-
-detectHotString: MacroType
