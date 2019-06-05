@@ -1,25 +1,26 @@
+import { ConditionsType, KeyStateType, MacroType } from '../../types/nhk-types';
+import { click, releaseKey } from '../utils/KeyboardMouse';
 import { KEYCODES } from '../utils/Keycodes';
-import { releaseKey, click } from '../utils/KeyboardMouse';
-import { runMacro } from './RunMacro';
 import { matchCurrentWindowTitle } from '../utils/Window';
-import { MacroType, ConditionsType, KeyStateType } from '../../types/nhk-types';
 import { keyCodeToPrintableChar } from './KeyCodeToPrintableChar';
+import { runMacro } from './RunMacro';
+// tslint:disable-next-line: no-var-requires
 const EventEmitter = require('events');
 
 export class NodeHotKey extends EventEmitter {
-	/**
-	* start listening for keyboard, mouse and Macro events
-	* @returns {void}
-	*/
-  startListening: () => void;
+  /**
+   * start listening for keyboard, mouse and Macro events
+   * @returns {void}
+   */
+  public startListening: () => void;
 
-	/**
-	* stop listening for keyboard and mouse events
-	* @returns {void}
-	*/
-  stopListening: () => void;
+  /**
+   * stop listening for keyboard and mouse events
+   * @returns {void}
+   */
+  public stopListening: () => void;
 
-  readonly eventTypes: { [key: string]: string };
+  public readonly eventTypes: { [key: string]: string };
 
   public constructor(pMacros?: MacroType) {
     super();
@@ -36,18 +37,18 @@ export class NodeHotKey extends EventEmitter {
     let keyboardStateCurr: any;
     let mouseStatePrev: any;
     let mouseStateCurr: any;
-    let emptyMacrosObject = {
-      'EmptyMacro': { steps: [] }
+    const emptyMacrosObject = {
+      EmptyMacro: { steps: [] },
     };
 
     const eventTypes = {
-      keyReleased: 'keyReleased',
-      keyPressed: 'keyPressed',
-      mouseKeyPressed: 'mouseKeyPressed',
-      mouseKeyReleased: 'mouseKeyReleased',
       hotKeyTriggered: 'hotKeyTriggered',
       hotstringTriggered: 'hotstringTriggered',
-      loopTriggered: 'loopTriggered'
+      keyPressed: 'keyPressed',
+      keyReleased: 'keyReleased',
+      loopTriggered: 'loopTriggered',
+      mouseKeyPressed: 'mouseKeyPressed',
+      mouseKeyReleased: 'mouseKeyReleased',
     };
     const emit = this.emit.bind(this);
     const on = this.on.bind(this);
@@ -80,7 +81,7 @@ export class NodeHotKey extends EventEmitter {
           // the keys are being pressed by robot
           return true;
         } else {
-          //the keys are being pressed by human
+          // the keys are being pressed by human
           return false;
         }
       }
@@ -90,19 +91,19 @@ export class NodeHotKey extends EventEmitter {
     function emitEvent(eventType: string, outConsole: string, eventData: any) {
       emit(eventType, eventData);
       if (process.env.NODE_ENV === 'dev') {
-        console.log(eventType + ':', outConsole)
+        console.log(eventType + ':', outConsole);
       }
     }
 
     function startLoops() {
-      Object.keys(macros).forEach(key => {
-        let macro = macros[key];
+      Object.keys(macros).forEach((key) => {
+        const macro = macros[key];
         if (macro.loop) {
           setInterval(() => {
             if (matchMacroConditions(macro.conditions)) {
               emitEvent(eventTypes.loopTriggered, key, {
-                macroName: key,
                 loopInterval: macro.loop,
+                macroName: key,
               });
               runMacro(macro.steps);
             }
@@ -127,42 +128,42 @@ export class NodeHotKey extends EventEmitter {
 
     function keyboardPressReleaseEvents(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): void {
 
-      //key pressed
+      // key pressed
       if (isKeyPressed(keyStatePrev, keyStateCurr, keyCode)) {
         emitEvent(eventTypes.keyPressed, `${keyCode} pressed`, {
-          keyCode: keyCode,
           keyBoardState: keyStateCurr,
-          printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT])
+          keyCode,
+          printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT]),
         });
       }
-      
+
       // key released
       if (isKeyReleased(keyStatePrev, keyStateCurr, keyCode)) {
         emitEvent(eventTypes.keyReleased, `${keyCode} released`, {
-          keyCode: keyCode,
           keyBoardState: keyStateCurr,
-          printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT])
+          keyCode,
+          printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT]),
         });
       }
     }
 
     function mousePressReleaseEvents(keyStatePrev: KeyStateType, keyStateCurr: KeyStateType, keyCode: string): void {
-      //key pressed
+      // key pressed
       if (isKeyPressed(keyStatePrev, keyStateCurr, keyCode)) {
         emitEvent(eventTypes.keyPressed, `${keyCode} pressed`,
           {
-            keyCode: keyCode,
             keyBoardState: keyStateCurr,
-            printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT])
+            keyCode,
+            printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT]),
           });
       }
       // key released
       if (isKeyReleased(keyStatePrev, keyStateCurr, keyCode)) {
         emitEvent(eventTypes.keyReleased, `${keyCode} released`,
           {
-            keyCode: keyCode,
             keyBoardState: keyStateCurr,
-            printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT])
+            keyCode,
+            printableChar: keyCodeToPrintableChar(Number(keyCode), keyStateCurr[KEYCODES._SHIFT]),
           });
       }
     }
@@ -173,7 +174,7 @@ export class NodeHotKey extends EventEmitter {
         return true;
       }
 
-      //start matching all the conditions one by one
+      // start matching all the conditions one by one
       if (conditions.window && !matchCurrentWindowTitle(conditions.window)) {
         return false;
       }
@@ -182,19 +183,19 @@ export class NodeHotKey extends EventEmitter {
     }
 
     function detectHotKeyEvents() {
-      function areKeysPressed(keyCodeArr: number[], keyStateCurr: any, mouseStateCurr: any): boolean {
+      function areKeysPressed(keyCodeArr: number[], keyState: any, mouseState: any): boolean {
         let keysArePressed = true;
-        keyCodeArr.forEach(keyCode => {
-          if (!keyStateCurr[keyCode] && !mouseStateCurr[keyCode]) {
-            keysArePressed = false
-          };
+        keyCodeArr.forEach((keyCode) => {
+          if (!keyState[keyCode] && !mouseState[keyCode]) {
+            keysArePressed = false;
+          }
         });
         return keysArePressed;
       }
 
       if (justRanMacro === false) {
-        Object.keys(macros).forEach(key => {
-          let macro = macros[key];
+        Object.keys(macros).forEach((key) => {
+          const macro = macros[key];
           if (
             macro.hotkeys &&
             areKeysPressed(macro.hotkeys, keyboardStateCurr, mouseStateCurr) &&
@@ -202,7 +203,7 @@ export class NodeHotKey extends EventEmitter {
           ) {
             emitEvent(
               eventTypes.hotKeyTriggered, `${key}`, {
-                macroName: key
+                macroName: key,
               });
 
             justRanMacro = true;
@@ -210,8 +211,8 @@ export class NodeHotKey extends EventEmitter {
               justRanMacro = false;
             }, 500);
 
-            doubleKeyCodes.forEach(keyCode => releaseKey(keyCode));
-            macro.hotkeys.forEach(keyCode => releaseKey(keyCode));
+            doubleKeyCodes.forEach((keyCode) => releaseKey(keyCode));
+            macro.hotkeys.forEach((keyCode) => releaseKey(keyCode));
             runMacro(macro.steps);
           }
         });
@@ -221,7 +222,7 @@ export class NodeHotKey extends EventEmitter {
     function detectHotstringEvents(keyCode: string, isShiftOn: boolean): void {
       // update currHotstring
       const keyPressedCodeNumber = Number(keyCode);
-      let char: string = keyCodeToPrintableChar(keyPressedCodeNumber, isShiftOn);
+      const char: string = keyCodeToPrintableChar(keyPressedCodeNumber, isShiftOn);
       // shift key is exception for hotstring capture
       if (char === '' && keyPressedCodeNumber !== 16 && keyPressedCodeNumber !== 160 && keyPressedCodeNumber !== 161) {
         currHotstring = '';
@@ -234,25 +235,26 @@ export class NodeHotKey extends EventEmitter {
       }
 
       // match currHotstring in macros
-      Object.keys(macros).forEach(key => {
-        let macro = macros[key];
+      Object.keys(macros).forEach((key) => {
+        const macro = macros[key];
         if (
           macro.hotstring &&
           macro.hotstring === currHotstring &&
           matchMacroConditions(macro.conditions)
         ) {
-          doubleKeyCodes.forEach(keyCode => { releaseKey(keyCode); });
+          doubleKeyCodes.forEach((code) => { releaseKey(code); });
           currHotstring = '';
 
           if (macro.steps[0].type !== undefined || macro.steps[0].paste !== undefined) {
+            // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i < macro.hotstring.length; i++) {
               click(KEYCODES._BACKSPACE);
             }
           }
 
           emitEvent(eventTypes.hotstringTriggered, macro.hotstring, {
-            macroName: key,
             hotString: macro.hotstring,
+            macroName: key,
           });
           runMacro(macro.steps);
         }
@@ -272,7 +274,7 @@ export class NodeHotKey extends EventEmitter {
         }
       });
 
-      //Loops
+      // Loops
       startLoops();
 
       listeningInterval = setInterval(() => {

@@ -1,208 +1,208 @@
 export function keyCodeToPrintableChar(keyNumber: number, isShiftOn: boolean): string {
-    // 47 keys
-    type Key2PrintMap = {
-        [key: number]: {
-            shiftOn: string;
-            shiftOff: string;
-        };
+  // 47 keys
+  interface IKey2PrintMap {
+    [key: number]: {
+      shiftOff: string;
+      shiftOn: string;
     };
+  }
 
-    let key2PrintMap: Key2PrintMap = {
-        48: {
-            shiftOn: ')',
-            shiftOff: '0'
-        },
-        49: {
-            shiftOn: '!',
-            shiftOff: '1'
-        },
-        50: {
-            shiftOn: '@',
-            shiftOff: '2'
-        },
-        51: {
-            shiftOn: '#',
-            shiftOff: '3'
-        },
-        52: {
-            shiftOn: '$',
-            shiftOff: '4'
-        },
-        53: {
-            shiftOn: '%',
-            shiftOff: '5'
-        },
-        54: {
-            shiftOn: '^',
-            shiftOff: '6'
-        },
-        55: {
-            shiftOn: '&',
-            shiftOff: '7'
-        },
-        56: {
-            shiftOn: '*',
-            shiftOff: '8'
-        },
-        57: {
-            shiftOn: '(',
-            shiftOff: '9'
-        },
-        65: {
-            shiftOn: 'A',
-            shiftOff: 'a'
-        },
-        66: {
-            shiftOn: 'B',
-            shiftOff: 'b'
-        },
-        67: {
-            shiftOn: 'C',
-            shiftOff: 'c'
-        },
-        68: {
-            shiftOn: 'D',
-            shiftOff: 'd'
-        },
-        69: {
-            shiftOn: 'E',
-            shiftOff: 'e'
-        },
-        70: {
-            shiftOn: 'F',
-            shiftOff: 'f'
-        },
-        71: {
-            shiftOn: 'G',
-            shiftOff: 'g'
-        },
-        72: {
-            shiftOn: 'H',
-            shiftOff: 'h'
-        },
-        73: {
-            shiftOn: 'I',
-            shiftOff: 'i'
-        },
-        74: {
-            shiftOn: 'J',
-            shiftOff: 'j'
-        },
-        75: {
-            shiftOn: 'K',
-            shiftOff: 'k'
-        },
-        76: {
-            shiftOn: 'L',
-            shiftOff: 'l'
-        },
-        77: {
-            shiftOn: 'M',
-            shiftOff: 'm'
-        },
-        78: {
-            shiftOn: 'N',
-            shiftOff: 'n'
-        },
-        79: {
-            shiftOn: 'O',
-            shiftOff: 'o'
-        },
-        80: {
-            shiftOn: 'P',
-            shiftOff: 'p'
-        },
-        81: {
-            shiftOn: 'Q',
-            shiftOff: 'q'
-        },
-        82: {
-            shiftOn: 'R',
-            shiftOff: 'r'
-        },
-        83: {
-            shiftOn: 'S',
-            shiftOff: 's'
-        },
-        84: {
-            shiftOn: 'T',
-            shiftOff: 't'
-        },
-        85: {
-            shiftOn: 'U',
-            shiftOff: 'u'
-        },
-        86: {
-            shiftOn: 'V',
-            shiftOff: 'v'
-        },
-        87: {
-            shiftOn: 'W',
-            shiftOff: 'w'
-        },
-        88: {
-            shiftOn: 'X',
-            shiftOff: 'x'
-        },
-        89: {
-            shiftOn: 'Y',
-            shiftOff: 'y'
-        },
-        90: {
-            shiftOn: 'Z',
-            shiftOff: 'z'
-        },
-        186: {
-            shiftOn: ':',
-            shiftOff: ';'
-        },
-        187: {
-            shiftOn: '+',
-            shiftOff: '='
-        },
-        188: {
-            shiftOn: '<',
-            shiftOff: ','
-        },
-        189: {
-            shiftOn: '_',
-            shiftOff: '-'
-        },
-        190: {
-            shiftOn: '>',
-            shiftOff: '.'
-        },
-        191: {
-            shiftOn: '?',
-            shiftOff: '/'
-        },
-        192: {
-            shiftOn: '~',
-            shiftOff: '`'
-        },
-        219: {
-            shiftOn: '{',
-            shiftOff: '['
-        },
-        220: {
-            shiftOn: '|',
-            shiftOff: '\\'
-        },
-        221: {
-            shiftOn: '}',
-            shiftOff: ']'
-        },
-        222: {
-            shiftOn: '\'',
-            shiftOff: '\''
-        }
-    };
+  const key2PrintMap: IKey2PrintMap = {
+    48: {
+      shiftOff: '0',
+      shiftOn: ')',
+    },
+    49: {
+      shiftOff: '1',
+      shiftOn: '!',
+    },
+    50: {
+      shiftOff: '2',
+      shiftOn: '@',
+    },
+    51: {
+      shiftOff: '3',
+      shiftOn: '#',
+    },
+    52: {
+      shiftOff: '4',
+      shiftOn: '$',
+    },
+    53: {
+      shiftOff: '5',
+      shiftOn: '%',
+    },
+    54: {
+      shiftOff: '6',
+      shiftOn: '^',
+    },
+    55: {
+      shiftOff: '7',
+      shiftOn: '&',
+    },
+    56: {
+      shiftOff: '8',
+      shiftOn: '*',
+    },
+    57: {
+      shiftOff: '9',
+      shiftOn: '(',
+    },
+    65: {
+      shiftOff: 'a',
+      shiftOn: 'A',
+    },
+    66: {
+      shiftOff: 'b',
+      shiftOn: 'B',
+    },
+    67: {
+      shiftOff: 'c',
+      shiftOn: 'C',
+    },
+    68: {
+      shiftOff: 'd',
+      shiftOn: 'D',
+    },
+    69: {
+      shiftOff: 'e',
+      shiftOn: 'E',
+    },
+    70: {
+      shiftOff: 'f',
+      shiftOn: 'F',
+    },
+    71: {
+      shiftOff: 'g',
+      shiftOn: 'G',
+    },
+    72: {
+      shiftOff: 'h',
+      shiftOn: 'H',
+    },
+    73: {
+      shiftOff: 'i',
+      shiftOn: 'I',
+    },
+    74: {
+      shiftOff: 'j',
+      shiftOn: 'J',
+    },
+    75: {
+      shiftOff: 'k',
+      shiftOn: 'K',
+    },
+    76: {
+      shiftOff: 'l',
+      shiftOn: 'L',
+    },
+    77: {
+      shiftOff: 'm',
+      shiftOn: 'M',
+    },
+    78: {
+      shiftOff: 'n',
+      shiftOn: 'N',
+    },
+    79: {
+      shiftOff: 'o',
+      shiftOn: 'O',
+    },
+    80: {
+      shiftOff: 'p',
+      shiftOn: 'P',
+    },
+    81: {
+      shiftOff: 'q',
+      shiftOn: 'Q',
+    },
+    82: {
+      shiftOff: 'r',
+      shiftOn: 'R',
+    },
+    83: {
+      shiftOff: 's',
+      shiftOn: 'S',
+    },
+    84: {
+      shiftOff: 't',
+      shiftOn: 'T',
+    },
+    85: {
+      shiftOff: 'u',
+      shiftOn: 'U',
+    },
+    86: {
+      shiftOff: 'v',
+      shiftOn: 'V',
+    },
+    87: {
+      shiftOff: 'w',
+      shiftOn: 'W',
+    },
+    88: {
+      shiftOff: 'x',
+      shiftOn: 'X',
+    },
+    89: {
+      shiftOff: 'y',
+      shiftOn: 'Y',
+    },
+    90: {
+      shiftOff: 'z',
+      shiftOn: 'Z',
+    },
+    186: {
+      shiftOff: ';',
+      shiftOn: ':',
+    },
+    187: {
+      shiftOff: '=',
+      shiftOn: '+',
+    },
+    188: {
+      shiftOff: ',',
+      shiftOn: '<',
+    },
+    189: {
+      shiftOff: '-',
+      shiftOn: '_',
+    },
+    190: {
+      shiftOff: '.',
+      shiftOn: '>',
+    },
+    191: {
+      shiftOff: '/',
+      shiftOn: '?',
+    },
+    192: {
+      shiftOff: '`',
+      shiftOn: '~',
+    },
+    219: {
+      shiftOff: '[',
+      shiftOn: '{',
+    },
+    220: {
+      shiftOff: '\\',
+      shiftOn: '|',
+    },
+    221: {
+      shiftOff: ']',
+      shiftOn: '}',
+    },
+    222: {
+      shiftOff: '\'',
+      shiftOn: '\'',
+    },
+  };
 
-    let keyMap = key2PrintMap[keyNumber];
+  const keyMap = key2PrintMap[keyNumber];
 
-    if (keyMap) {
-        return isShiftOn ? keyMap.shiftOn : keyMap.shiftOff;
-    } else {
-        return '';
-    }
+  if (keyMap) {
+    return isShiftOn ? keyMap.shiftOn : keyMap.shiftOff;
+  } else {
+    return '';
+  }
 }

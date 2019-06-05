@@ -1,0 +1,31 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "linterOptions": {
+        "exclude": [
+            "bin",
+            "src/utils/Keycodes.ts"
+        ]
+    },
+    "jsRules": {},
+    "rules": {
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "indent": [
+            true,
+            "spaces",
+            2
+        ],
+        "max-line-length": [
+            true,
+            150
+        ],
+        "no-unused-variable": true,
+        "no-console": false
+    },
+    "rulesDirectory": []
+}
