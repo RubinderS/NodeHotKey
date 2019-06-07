@@ -1,4 +1,5 @@
 import robot from 'robot-js';
+
 /**
  * get text from the clipboard
  * @returns {string}
@@ -6,6 +7,7 @@ import robot from 'robot-js';
 export function getClipboardText(): string {
   return robot.Clipboard.getText();
 }
+
 /**
  * set text to clipboard
  * @param text {string} text to set to clipboard

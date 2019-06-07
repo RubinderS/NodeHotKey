@@ -20,6 +20,7 @@ mouse.autoDelay.max = 0;
 export function pressKey(keyCode: number): void {
   keyCode < 8 ? mouse.press(keyCode) : keyboard.press(keyCode);
 }
+
 /**
  * release a keyboard/mouse key
  * @param keyCode {number} code of the key to release
@@ -28,6 +29,7 @@ export function pressKey(keyCode: number): void {
 export function releaseKey(keyCode: number): void {
   keyCode < 8 ? mouse.release(keyCode) : keyboard.release(keyCode);
 }
+
 /**
  * click a keyboard/mouse key
  * @param clickKey {ClickType}
@@ -77,6 +79,7 @@ export function paste(text: string): void {
   wait(delay);
   setClipboardText(tempClipText);
 }
+
 /**
  * type string using keystrokes
  * @param text {string} string to be typed
