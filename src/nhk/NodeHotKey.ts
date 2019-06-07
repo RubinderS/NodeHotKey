@@ -1,12 +1,3 @@
-import { ConditionsType, KeyStateType, MacroType } from '../../types/nhk-types';
-import { click, releaseKey } from '../utils/KeyboardMouse';
-import { KEYCODES } from '../utils/Keycodes';
-import { matchCurrentWindowTitle } from '../utils/Window';
-import { keyCodeToPrintableChar } from './KeyCodeToPrintableChar';
-import { runMacro } from './RunMacro';
-// tslint:disable-next-line: no-var-requires
-const EventEmitter = require('events');
-
 /*******************************************************************************************
  *                                                                                         *
  * ███╗   ██╗ ██████╗ ██████╗ ███████╗██╗  ██╗ ██████╗ ████████╗██╗  ██╗███████╗██╗   ██╗  *
@@ -19,6 +10,15 @@ const EventEmitter = require('events');
  * Author: Rubinder Singh                                                                  *
  * Date: 07-Jun-2019                                                                       *
  *******************************************************************************************/
+
+import { ConditionsType, KeyStateType, MacroType } from '../../types/nhk-types';
+import { click, releaseKey } from '../utils/KeyboardMouse';
+import { KEYCODES } from '../utils/Keycodes';
+import { matchCurrentWindowTitle } from '../utils/Window';
+import { keyCodeToPrintableChar } from './KeyCodeToPrintableChar';
+import { runMacro } from './RunMacro';
+// tslint:disable-next-line: no-var-requires
+const EventEmitter = require('events');
 
 export class NodeHotKey extends EventEmitter {
   /**
