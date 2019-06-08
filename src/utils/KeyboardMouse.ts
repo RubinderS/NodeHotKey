@@ -40,9 +40,9 @@ export function click(clickKey: ClickType | number | number[]): void {
     // convert keyCodes into an array if its a number
     keyCodes = typeof keyCodes === 'number' ? [keyCodes] : keyCodes;
 
-    keyCodes.forEach((modifier) => {
-      pressKey(modifier);
-      releaseKey(modifier);
+    keyCodes.forEach((keyCode) => {
+      pressKey(keyCode);
+      releaseKey(keyCode);
     });
   };
 
