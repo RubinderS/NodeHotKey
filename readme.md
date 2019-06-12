@@ -1,5 +1,5 @@
-![GitHub](https://img.shields.io/github/license/Rubinder25/NodeHotKey.svg?style=flat-square)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/Rubinder25/NodeHotKey.svg?style=flat-square)
+![GitHub](https://img.shields.io/github/license/rubinder25/nodehotkey.svg?style=flat-square)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/Rubinder25/nodehotkey.svg?style=flat-square)
 
 # NodeHotKey
 https://github.com/Rubinder25/NodeHotKey  
