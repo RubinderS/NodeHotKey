@@ -1,6 +1,6 @@
 {
   "name": "nodehotkey",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Authotkey like macros for NodeJS",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -10,7 +10,7 @@
     "defs": "tsc --declaration --outDir build --emitDeclarationOnly"
   },
   "author": "Rubinder Singh",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "robot-js": "2.0.0"
   },
