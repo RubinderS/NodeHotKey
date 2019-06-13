@@ -83,7 +83,10 @@ let macroConfig = {
             { type: "Wait for 3 secs then press ','  " },
             { wait: 3000 },
             { click: kc._COMMA },
-            { func: (tools: ToolsType) => { tools.type('Run JavaScript functions by pressing hotkeys') } }
+			{ func: tools => { 
+				    tools.type('Run JavaScript functions by pressing hotkeys'); 
+				} 
+			}
         ]
     }
 }
@@ -104,7 +107,7 @@ https://github.com/Rubinder25/MacroSamples_NodeHotKey
 > email: mail2rubinder@gmail.com
 
 ## License
-ISC
+MIT
 
 **Note:** currently Node V10 is not supported
 
