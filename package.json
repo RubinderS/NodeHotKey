@@ -12,13 +12,12 @@
   "author": "Rubinder Singh",
   "license": "MIT",
   "dependencies": {
-    "robot-js": "2.0.0"
+    "robot-js": "2.0.0",
+    "tslint": "^5.17.0"
   },
   "devDependencies": {
     "@types/node": "10.12.21",
-    "cross-env": "5.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-google": "^0.13.0"
+    "cross-env": "5.2.0"
   },
   "engines": {
     "node": "0.12 - 9"
